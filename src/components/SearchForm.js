@@ -7,6 +7,7 @@ function SearchForm() {
         type="text"
         data-testid="search-input"
       />
+      <button type="button">Enviar</button>
     </form>
   );
 }
