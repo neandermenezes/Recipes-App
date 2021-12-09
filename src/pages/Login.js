@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import profileIcon from '../images/profileIcon.svg';
 
 const MIN_PASSWORD_LENGTH = 6;
 
@@ -57,6 +58,9 @@ function Login({ history }) {
           Entrar
         </button>
       </div>
+      <svg>
+        <use href={ `${profileIcon}` } />
+      </svg>
     </form>
   );
 }
