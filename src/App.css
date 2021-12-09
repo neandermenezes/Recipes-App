@@ -11,3 +11,14 @@ html {
 body {
   font-family: Inter , sans-serif;
 }
+
+.footer {
+  bottom: 0;
+  display: flex;
+  position: fixed;
+}
+
+.footer__icon {
+  height: 2rem;
+  width: 2rem;
+}
