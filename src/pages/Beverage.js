@@ -17,8 +17,8 @@ function Beverage() {
   }, []);
 
   const results = filteredBeverage.length > 0 ? filteredBeverage : beverages;
-  const renderBeverage = results.slice(0, MAX_MAP_LENGTH);
-  console.log(beverages, filteredBeverage);
+  let renderBeverage = [];
+  if (results) renderBeverage = results.slice(0, MAX_MAP_LENGTH);
 
   return (
     <div>
