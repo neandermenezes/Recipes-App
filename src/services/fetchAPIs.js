@@ -1,4 +1,4 @@
-export async function fetchAPIdrinks(text, radio) {
+export async function requestFilteredDrinks(text, radio) {
   if (radio === 'ingredient') {
     const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${text}`);
     const result = await response.json();
@@ -13,7 +13,7 @@ export async function fetchAPIdrinks(text, radio) {
   return result;
 }
 
-export async function fetchAPIfoods(text, radio) {
+export async function requestFilteredFoods(text, radio) {
   if (radio === 'ingredient') {
     const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${text}`);
     const result = await response.json();
@@ -31,6 +31,12 @@ export async function fetchAPIfoods(text, radio) {
 export async function fetchAPIRandomFoodOrDrink(category) {
   const urlByCategory = category === 'food' ? 'themealdb' : 'thecocktaildb';
   const response = await fetch(`https://www.${urlByCategory}.com/api/json/v1/1/random.php`);
+  const result = await response.json();
+  return result;
+}
+
+export async function requestFoodsOrDrinks(urlByCategory) {
+  const response = await fetch(`https://www.${urlByCategory}.com/api/json/v1/1/search.php?s=`);
   const result = await response.json();
   return result;
 }
