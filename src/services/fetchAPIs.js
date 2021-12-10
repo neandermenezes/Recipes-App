@@ -40,3 +40,9 @@ export async function requestFoodsOrDrinks(urlByCategory) {
   const result = await response.json();
   return result;
 }
+
+export async function requestCategories(urlByCategory) {
+  const response = await fetch(`https://www.${urlByCategory}.com/api/json/v1/1/list.php?c=list`);
+  const result = await response.json();
+  return result;
+}

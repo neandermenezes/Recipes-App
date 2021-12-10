@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import RecipesContext from '../context/RecipesContext';
 import { requestFoodsOrDrinks } from '../services/fetchAPIs';
 import Card from '../components/Card';
+import FilterButtons from '../components/FilterButtons';
 
 const MAX_MAP_LENGTH = 12;
 
@@ -23,6 +24,7 @@ function Beverage() {
   return (
     <div>
       <Header name="Bebidas" search />
+      <FilterButtons url="thecocktaildb" type="drinks" />
       { renderBeverage && renderBeverage.map((beverage, index) => (
         <Card
           header={ beverage.strDrink }
