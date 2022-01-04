@@ -1,14 +1,14 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { useHistory } from 'react-router';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 
 function Profile() {
-  const { email } = JSON.parse(localStorage.getItem('user'));
+  const email = localStorage.getItem('user')
+    ? JSON.parse(localStorage.getItem('user')).email : '';
   const history = useHistory();
 
   const redirect = (redirectTo) => {
-    console.log(redirectTo);
     if (redirectTo === 'done-recipes') return history.push('/receitas-feitas');
     if (redirectTo === 'favorite-recipes') return history.push('/receitas-favoritas');
     history.push('/');
