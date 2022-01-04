@@ -10,6 +10,7 @@ const MAX_MAP_LENGTH = 12;
 
 function Beverage() {
   const [beverages, setBeverages] = useState();
+  const [renderBeverage, setRenderBeverage] = useState([]);
   const { filteredBeverage } = useContext(RecipesContext);
 
   useEffect(() => {
@@ -17,9 +18,10 @@ function Beverage() {
       .then(({ drinks }) => setBeverages(drinks));
   }, []);
 
-  const results = filteredBeverage.length > 0 ? filteredBeverage : beverages;
-  let renderBeverage = [];
-  if (results) renderBeverage = results.slice(0, MAX_MAP_LENGTH);
+  useEffect(() => {
+    const results = filteredBeverage.length > 0 ? filteredBeverage : beverages;
+    if (results) setRenderBeverage(results.slice(0, MAX_MAP_LENGTH));
+  }, [filteredBeverage, beverages]);
 
   return (
     <div>
@@ -27,6 +29,8 @@ function Beverage() {
       <FilterButtons url="thecocktaildb" type="drinks" />
       { renderBeverage && renderBeverage.map((beverage, index) => (
         <Card
+          id="idDrink"
+          itemId={ beverage.idDrink }
           header={ beverage.strDrink }
           img={ beverage.strDrinkThumb }
           index={ index }
