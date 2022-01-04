@@ -5,6 +5,7 @@ import Header from '../components/Header';
 
 function Profile() {
   const { email } = JSON.parse(localStorage.getItem('user'));
+  console.log(email);
   const history = useHistory();
 
   const redirect = (redirectTo) => {
