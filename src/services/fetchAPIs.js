@@ -74,3 +74,11 @@ export async function requestRecipesByCategory(category, urlByCategory) {
   const result = await response.json();
   return result;
 }
+
+export async function requestRecipesById(id, urlByCategory) {
+  const response = await fetch(
+    `https://www.${urlByCategory}.com/api/json/v1/1/lookup.php?i=${id}`,
+  );
+  const result = await response.json();
+  return result;
+}
