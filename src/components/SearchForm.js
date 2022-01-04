@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router';
 import RecipesContext from '../context/RecipesContext';
-import { fetchAPIfoods, fetchAPIdrinks } from '../services/fetchAPIs';
+import { requestFilteredFoods, requestFilteredDrinks } from '../services/fetchAPIs';
 
 function SearchForm() {
   const { setFilteredFood, setFilteredBeverage } = useContext(RecipesContext);
@@ -36,10 +36,10 @@ function SearchForm() {
 
     try {
       if (pathname === '/bebidas' || pathname === '/bebidas/') {
-        const result = await fetchAPIdrinks(searchText, selectedRadio);
+        const result = await requestFilteredDrinks(searchText, selectedRadio);
         redirectByLength(result.drinks, 'bebidas');
       } else {
-        const result = await fetchAPIfoods(searchText, selectedRadio);
+        const result = await requestFilteredFoods(searchText, selectedRadio);
         redirectByLength(result.meals, 'comidas');
       }
     } catch (error) {
