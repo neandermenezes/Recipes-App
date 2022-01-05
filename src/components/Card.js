@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-function Card({ index, header, img, id, itemId }) {
+function Card({ index, header, img, id, itemId, testId }) {
   const urlByCategory = id === 'idMeal' ? 'comidas' : 'bebidas';
   return (
     <Link to={ `/${urlByCategory}/${itemId}` }>
-      <div data-testid={ `${index}-recipe-card` }>
+      <div data-testid={ testId }>
         <img
           src={ img }
           alt={ header }
@@ -26,6 +26,7 @@ Card.propTypes = {
   img: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   itemId: PropTypes.string.isRequired,
+  testId: PropTypes.string.isRequired,
 };
 
 export default Card;
