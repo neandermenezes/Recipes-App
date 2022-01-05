@@ -35,6 +35,7 @@ function Beverage() {
           img={ beverage.strDrinkThumb }
           index={ index }
           key={ beverage.idDrink }
+          testId={ `${index}-recipe-card` }
         />
       )) }
       <Footer />
