@@ -10,6 +10,7 @@ const MAX_MAP_LENGTH = 12;
 
 function Food() {
   const [foods, setFoods] = useState([]);
+  const [renderFoods, setRenderFoods] = useState([]);
   const { filteredFood } = useContext(RecipesContext);
 
   useEffect(() => {
@@ -17,8 +18,10 @@ function Food() {
       .then(({ meals }) => setFoods(meals));
   }, []);
 
-  const results = filteredFood.length > 0 ? filteredFood : foods;
-  const renderFoods = results.slice(0, MAX_MAP_LENGTH);
+  useEffect(() => {
+    const results = filteredFood.length > 0 ? filteredFood : foods;
+    setRenderFoods(results.slice(0, MAX_MAP_LENGTH));
+  }, [filteredFood, foods]);
 
   return (
     <div>
@@ -26,6 +29,8 @@ function Food() {
       <FilterButtons url="themealdb" type="meals" />
       { renderFoods && renderFoods.map((food, index) => (
         <Card
+          id="idMeal"
+          itemId={ food.idMeal }
           header={ food.strMeal }
           img={ food.strMealThumb }
           index={ index }
