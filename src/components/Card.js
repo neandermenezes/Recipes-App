@@ -12,7 +12,10 @@ function Card({ index, header, img, id, itemId, testId }) {
           alt={ header }
           data-testid={ `${index}-card-img` }
         />
-        <h3 data-testid={ `${index}-card-name` }>
+        <h3
+          data-testid={ `${index}-${testId.includes('recomendation')
+            ? 'recomendation-title' : 'card-name'}` }
+        >
           {header}
         </h3>
       </div>

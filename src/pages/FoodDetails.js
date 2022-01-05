@@ -20,6 +20,8 @@ const currentURL = window.location.href;
 
 const FIRST_INGREDIENT = 9;
 const LAST_INGREDIENT = 29;
+const FIRST_MEASURE = 29;
+const LAST_MEASURE = 49;
 const MAX_RECOMENDATION_CARDS = 6;
 
 function FoodDetails(props) {
@@ -40,9 +42,7 @@ function FoodDetails(props) {
     strArea,
   } = recipeInfo;
   const [renderRecomendations, setRecomendations] = useState([]);
-  const [isFavorite, setIsFavorite] = useState(
-    getFavoriteRecipes().find((recipe) => recipe.id === id),
-  );
+  const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
     requestRecipesById(id, 'themealdb').then(({ meals }) => setRecipeInfo(meals[0]));
@@ -53,25 +53,39 @@ function FoodDetails(props) {
       .then(({ drinks }) => setRecomendations(drinks.slice(0, MAX_RECOMENDATION_CARDS)));
   }, []);
 
+  useEffect(() => {
+    if (getFavoriteRecipes()) {
+      return setIsFavorite(getFavoriteRecipes().find((recipe) => recipe.id === id));
+    }
+    setFavoriteRecipes([]);
+  }, []);
+
   const filteredIngredients = Object.entries(recipeInfo).slice(
     FIRST_INGREDIENT,
     LAST_INGREDIENT,
   );
+
+  const filteredMeasures = Object.entries(recipeInfo).slice(
+    FIRST_MEASURE,
+    LAST_MEASURE,
+  );
+
   const ingredientsList = filteredIngredients
     .filter((ingredient) => ingredient[1] !== '')
     .map((item) => item[1]);
 
+  const measuresList = filteredMeasures
+    .filter((measure) => measure[1] !== null)
+    .map((item) => item[1]);
+
   const url = strYoutube ? strYoutube.split('=')[1] : strYoutube;
 
-  const handleShare = () => {
-    copy(currentURL);
-    global.alert('Link Copiado!');
+  const handleShare = async () => {
+    await copy(currentURL);
+    global.alert('Link copiado!');
   };
 
   const handleFavorite = () => {
-    if (!localStorage.getItem('favoriteRecipes')) {
-      localStorage.setItem('favoriteRecipes', '[]');
-    }
     if (!isFavorite) {
       const newFavorite = {
         id,
@@ -116,7 +130,7 @@ function FoodDetails(props) {
             key={ ingredient }
             data-testid={ `${index}-ingredient-name-and-measure` }
           >
-            {ingredient}
+            {`${ingredient} ${measuresList[index] ? measuresList[index] : ''}`}
           </li>
         ))}
       </ul>
@@ -144,6 +158,7 @@ function FoodDetails(props) {
           ))}
       </div>
       <button
+        className="start-recipe-btn"
         type="button"
         onClick={ () => history.push(`/comidas/${id}/in-progress`) }
         // disabled (se a receita já foi feita)

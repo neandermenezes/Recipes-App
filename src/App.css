@@ -22,3 +22,8 @@ body {
   height: 2rem;
   width: 2rem;
 }
+
+.start-recipe-btn {
+  position: fixed;
+  bottom: 0;
+}
