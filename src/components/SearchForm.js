@@ -14,7 +14,7 @@ function SearchForm() {
   };
 
   const alertLetter = () => {
-    alert('Sua busca deve conter somente 1 (um) caracter');
+    global.alert('Sua busca deve conter somente 1 (um) caracter');
   };
 
   const redirectByLength = (result, category) => {
@@ -43,7 +43,7 @@ function SearchForm() {
         redirectByLength(result.meals, 'comidas');
       }
     } catch (error) {
-      alert('Sinto muito, não encontramos nenhuma receita para esses filtros.');
+      global.alert('Sinto muito, não encontramos nenhuma receita para esses filtros.');
       return error;
     }
   };
