@@ -18,10 +18,6 @@ const copy = require('clipboard-copy');
 
 const currentURL = window.location.href;
 
-// const FIRST_INGREDIENT = 9;
-// const LAST_INGREDIENT = 29;
-// const FIRST_MEASURE = 29;
-// const LAST_MEASURE = 49;
 const MAX_RECOMENDATION_CARDS = 6;
 
 function FoodDetails(props) {
@@ -56,40 +52,28 @@ function FoodDetails(props) {
 
   useEffect(() => {
     if (getFavoriteRecipes()) {
-      return setIsFavorite(getFavoriteRecipes().find((recipe) => recipe.id === id));
+      return setIsFavorite(
+        getFavoriteRecipes().find((recipe) => recipe.id === id),
+      );
     }
     setFavoriteRecipes([]);
   }, []);
 
-  // const filteredIngredients = Object.entries(recipeInfo).slice(
-  //   FIRST_INGREDIENT,
-  //   LAST_INGREDIENT,
-  // );
+  const ingredientsList = Object.entries(recipeInfo)
+    .filter(
+      (ingredients) => ingredients[0].includes('strIngredient')
+        && ingredients[1] !== null
+        && ingredients[1] !== '',
+    )
+    .map((item) => item[1]);
 
-  // const filteredMeasures = Object.entries(recipeInfo).slice(
-  //   FIRST_MEASURE,
-  //   LAST_MEASURE,
-  // );
-
-  // const ingredientsList = filteredIngredients
-  //   .filter((ingredient) => ingredient[1] !== '')
-  //   .map((item) => item[1]);
-
-  // const measuresList = filteredMeasures
-  //   .filter((measure) => measure[1] !== null)
-  //   .map((item) => item[1]);
-
-  const ingredientsList = Object.entries(recipeInfo).filter((ingredients) => (
-    ingredients[0].includes('strIngredient')
-      && ingredients[1] !== null
-      && ingredients[1] !== ''
-  )).map((item) => item[1]);
-
-  const measuresList = Object.entries(recipeInfo).filter((measure) => (
-    measure[0].includes('strMeasure')
-      && measure[1] !== null
-      && measure[1] !== ''
-  )).map((item) => item[1]);
+  const measuresList = Object.entries(recipeInfo)
+    .filter(
+      (measure) => measure[0].includes('strMeasure')
+        && measure[1] !== null
+        && measure[1] !== '',
+    )
+    .map((item) => item[1]);
 
   const url = strYoutube ? strYoutube.split('=')[1] : strYoutube;
 
@@ -132,10 +116,7 @@ function FoodDetails(props) {
           </button>
           {isCopied && <p>Link copiado!</p>}
         </div>
-        <button
-          type="button"
-          onClick={ handleFavorite }
-        >
+        <button type="button" onClick={ handleFavorite }>
           <img
             src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
             alt="heart"
@@ -161,20 +142,22 @@ function FoodDetails(props) {
         title={ strMeal }
         data-testid="video"
       />
-      <div>
+      <div className="recomended">
         <h2>Recomendadas</h2>
-        {renderRecomendations
-          && renderRecomendations.map((beverage, index) => (
-            <Card
-              id="idDrink"
-              itemId={ beverage.idDrink }
-              header={ beverage.strDrink }
-              img={ beverage.strDrinkThumb }
-              index={ index }
-              key={ beverage.idDrink }
-              testId={ `${index}-recomendation-card` }
-            />
-          ))}
+        <div className="carousel">
+          {renderRecomendations
+            && renderRecomendations.map((beverage, index) => (
+              <Card
+                id="idDrink"
+                itemId={ beverage.idDrink }
+                header={ beverage.strDrink }
+                img={ beverage.strDrinkThumb }
+                index={ index }
+                key={ beverage.idDrink }
+                testId={ `${index}-recomendation-card` }
+              />
+            ))}
+        </div>
       </div>
       <button
         className="start-recipe-btn"

@@ -18,10 +18,6 @@ const copy = require('clipboard-copy');
 
 const currentURL = window.location.href;
 
-// const FIRST_INGREDIENT = 17;
-// const LAST_INGREDIENT = 32;
-// const FIRST_MEASURE = 32;
-// const LAST_MEASURE = 47;
 const MAX_RECOMENDATION_CARDS = 6;
 
 function BeverageDetails(props) {
@@ -60,16 +56,6 @@ function BeverageDetails(props) {
     setFavoriteRecipes([]);
   }, []);
 
-  // const filteredIngredients = Object.entries(recipeInfo).slice(
-  //   FIRST_INGREDIENT,
-  //   LAST_INGREDIENT,
-  // );
-
-  // const filteredMeasures = Object.entries(recipeInfo).slice(
-  //   FIRST_MEASURE,
-  //   LAST_MEASURE,
-  // );
-
   const ingredientsList = Object.entries(recipeInfo).filter((ingredients) => (
     ingredients[0].includes('strIngredient')
       && ingredients[1] !== null
@@ -81,14 +67,6 @@ function BeverageDetails(props) {
       && measure[1] !== null
       && measure[1] !== ''
   )).map((item) => item[1]);
-
-  // const ingredientsList = filteredIngredients
-  //   .filter((ingredient) => ingredient[1] !== null && ingredient[1] !== '')
-  //   .map((item) => item[1]);
-
-  // const measuresList = filteredMeasures
-  //   .filter((measure) => measure[1] !== null && measure[1] !== '')
-  //   .map((item) => item[1]);
 
   const handleShare = async () => {
     await copy(currentURL);
