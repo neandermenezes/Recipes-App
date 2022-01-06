@@ -1,6 +1,7 @@
 import React from 'react';
 
-function FoodInProgress() {
+function FoodInProgress(props) {
+  console.log(props);
   return (
     <div />
   );

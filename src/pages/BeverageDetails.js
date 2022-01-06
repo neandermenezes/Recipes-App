@@ -51,22 +51,28 @@ function BeverageDetails(props) {
 
   useEffect(() => {
     if (getFavoriteRecipes()) {
-      return setIsFavorite(getFavoriteRecipes().find((recipe) => recipe.id === id));
+      return setIsFavorite(
+        getFavoriteRecipes().find((recipe) => recipe.id === id),
+      );
     }
     setFavoriteRecipes([]);
   }, []);
 
-  const ingredientsList = Object.entries(recipeInfo).filter((ingredients) => (
-    ingredients[0].includes('strIngredient')
-      && ingredients[1] !== null
-      && ingredients[1] !== ''
-  )).map((item) => item[1]);
+  const ingredientsList = Object.entries(recipeInfo)
+    .filter(
+      (ingredients) => ingredients[0].includes('strIngredient')
+        && ingredients[1] !== null
+        && ingredients[1] !== '',
+    )
+    .map((item) => item[1]);
 
-  const measuresList = Object.entries(recipeInfo).filter((measure) => (
-    measure[0].includes('strMeasure')
-      && measure[1] !== null
-      && measure[1] !== ''
-  )).map((item) => item[1]);
+  const measuresList = Object.entries(recipeInfo)
+    .filter(
+      (measure) => measure[0].includes('strMeasure')
+        && measure[1] !== null
+        && measure[1] !== '',
+    )
+    .map((item) => item[1]);
 
   const handleShare = async () => {
     await copy(currentURL);
@@ -107,10 +113,7 @@ function BeverageDetails(props) {
           </button>
           {isCopied && <p>Link copiado!</p>}
         </div>
-        <button
-          type="button"
-          onClick={ handleFavorite }
-        >
+        <button type="button" onClick={ handleFavorite }>
           <img
             src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
             alt="heart"
@@ -129,20 +132,22 @@ function BeverageDetails(props) {
         ))}
       </ul>
       <p data-testid="instructions">{strInstructions}</p>
-      <div>
+      <div className="recomended">
         <h2>Recomendadas</h2>
-        {renderRecomendations
-          && renderRecomendations.map((food, index) => (
-            <Card
-              id="idMeal"
-              itemId={ food.idMeal }
-              header={ food.strMeal }
-              img={ food.strMealThumb }
-              index={ index }
-              key={ food.idMeal }
-              testId={ `${index}-recomendation-card` }
-            />
-          ))}
+        <div className="carousel">
+          {renderRecomendations
+            && renderRecomendations.map((food, index) => (
+              <Card
+                id="idMeal"
+                itemId={ food.idMeal }
+                header={ food.strMeal }
+                img={ food.strMealThumb }
+                index={ index }
+                key={ food.idMeal }
+                testId={ `${index}-recomendation-card` }
+              />
+            ))}
+        </div>
       </div>
       <button
         className="start-recipe-btn"
