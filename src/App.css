@@ -4,6 +4,11 @@
   padding: 0;
 }
 
+a {
+  color: black;
+  text-decoration: none;
+}
+
 html {
   font-size: 20px;
 }
@@ -21,4 +26,39 @@ body {
 .footer__icon {
   height: 2rem;
   width: 2rem;
+}
+
+.start-recipe-btn {
+  bottom: 0;
+  position: fixed;
+}
+
+.carousel {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 20px;
+  overflow-x: scroll;
+  width: 100%;
+}
+
+.recomended {
+  display: flex;
+  flex-direction: column;
+}
+
+.recipe-card {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  width: 160px;
+}
+
+.recipe-card__image {
+  border-radius: 50%;
+  height: 200px;
+  width: 100%;
+}
+
+.recomended-card__title {
+  color: black;
 }

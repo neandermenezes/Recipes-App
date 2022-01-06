@@ -18,8 +18,6 @@ const copy = require('clipboard-copy');
 
 const currentURL = window.location.href;
 
-const FIRST_INGREDIENT = 9;
-const LAST_INGREDIENT = 29;
 const MAX_RECOMENDATION_CARDS = 6;
 
 function FoodDetails(props) {
@@ -40,9 +38,8 @@ function FoodDetails(props) {
     strArea,
   } = recipeInfo;
   const [renderRecomendations, setRecomendations] = useState([]);
-  const [isFavorite, setIsFavorite] = useState(
-    getFavoriteRecipes().find((recipe) => recipe.id === id),
-  );
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
 
   useEffect(() => {
     requestRecipesById(id, 'themealdb').then(({ meals }) => setRecipeInfo(meals[0]));
@@ -53,25 +50,39 @@ function FoodDetails(props) {
       .then(({ drinks }) => setRecomendations(drinks.slice(0, MAX_RECOMENDATION_CARDS)));
   }, []);
 
-  const filteredIngredients = Object.entries(recipeInfo).slice(
-    FIRST_INGREDIENT,
-    LAST_INGREDIENT,
-  );
-  const ingredientsList = filteredIngredients
-    .filter((ingredient) => ingredient[1] !== '')
+  useEffect(() => {
+    if (getFavoriteRecipes()) {
+      return setIsFavorite(
+        getFavoriteRecipes().find((recipe) => recipe.id === id),
+      );
+    }
+    setFavoriteRecipes([]);
+  }, []);
+
+  const ingredientsList = Object.entries(recipeInfo)
+    .filter(
+      (ingredients) => ingredients[0].includes('strIngredient')
+        && ingredients[1] !== null
+        && ingredients[1] !== '',
+    )
+    .map((item) => item[1]);
+
+  const measuresList = Object.entries(recipeInfo)
+    .filter(
+      (measure) => measure[0].includes('strMeasure')
+        && measure[1] !== null
+        && measure[1] !== '',
+    )
     .map((item) => item[1]);
 
   const url = strYoutube ? strYoutube.split('=')[1] : strYoutube;
 
-  const handleShare = () => {
-    copy(currentURL);
-    global.alert('Link Copiado!');
+  const handleShare = async () => {
+    await copy(currentURL);
+    setIsCopied(true);
   };
 
   const handleFavorite = () => {
-    if (!localStorage.getItem('favoriteRecipes')) {
-      localStorage.setItem('favoriteRecipes', '[]');
-    }
     if (!isFavorite) {
       const newFavorite = {
         id,
@@ -99,15 +110,18 @@ function FoodDetails(props) {
         <img src={ strMealThumb } alt="food" data-testid="recipe-photo" />
         <h1 data-testid="recipe-title">{strMeal}</h1>
         <h2 data-testid="recipe-category">{strCategory}</h2>
-        <button type="button" data-testid="share-btn" onClick={ handleShare }>
-          <img src={ shareIcon } alt="share" />
-        </button>
-        <button
-          type="button"
-          data-testid="favorite-btn"
-          onClick={ handleFavorite }
-        >
-          <img src={ isFavorite ? blackHeartIcon : whiteHeartIcon } alt="heart" />
+        <div>
+          <button type="button" data-testid="share-btn" onClick={ handleShare }>
+            <img src={ shareIcon } alt="share" />
+          </button>
+          {isCopied && <p>Link copiado!</p>}
+        </div>
+        <button type="button" onClick={ handleFavorite }>
+          <img
+            src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+            alt="heart"
+            data-testid="favorite-btn"
+          />
         </button>
       </div>
       <ul>
@@ -116,7 +130,7 @@ function FoodDetails(props) {
             key={ ingredient }
             data-testid={ `${index}-ingredient-name-and-measure` }
           >
-            {ingredient}
+            {`${ingredient} ${measuresList[index] ? measuresList[index] : ''}`}
           </li>
         ))}
       </ul>
@@ -128,22 +142,25 @@ function FoodDetails(props) {
         title={ strMeal }
         data-testid="video"
       />
-      <div>
+      <div className="recomended">
         <h2>Recomendadas</h2>
-        {renderRecomendations
-          && renderRecomendations.map((beverage, index) => (
-            <Card
-              id="idDrink"
-              itemId={ beverage.idDrink }
-              header={ beverage.strDrink }
-              img={ beverage.strDrinkThumb }
-              index={ index }
-              key={ beverage.idDrink }
-              testId={ `${index}-recomendation-card` }
-            />
-          ))}
+        <div className="carousel">
+          {renderRecomendations
+            && renderRecomendations.map((beverage, index) => (
+              <Card
+                id="idDrink"
+                itemId={ beverage.idDrink }
+                header={ beverage.strDrink }
+                img={ beverage.strDrinkThumb }
+                index={ index }
+                key={ beverage.idDrink }
+                testId={ `${index}-recomendation-card` }
+              />
+            ))}
+        </div>
       </div>
       <button
+        className="start-recipe-btn"
         type="button"
         onClick={ () => history.push(`/comidas/${id}/in-progress`) }
         // disabled (se a receita já foi feita)

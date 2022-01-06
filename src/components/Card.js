@@ -6,13 +6,18 @@ function Card({ index, header, img, id, itemId, testId }) {
   const urlByCategory = id === 'idMeal' ? 'comidas' : 'bebidas';
   return (
     <Link to={ `/${urlByCategory}/${itemId}` }>
-      <div data-testid={ testId }>
+      <div className="recipe-card" data-testid={ testId }>
         <img
+          className="recipe-card__image"
           src={ img }
           alt={ header }
           data-testid={ `${index}-card-img` }
         />
-        <h3 data-testid={ `${index}-card-name` }>
+        <h3
+          data-testid={ `${index}-${testId.includes('recomendation')
+            ? 'recomendation-title' : 'card-name'}` }
+          className="recomended-card__title"
+        >
           {header}
         </h3>
       </div>
