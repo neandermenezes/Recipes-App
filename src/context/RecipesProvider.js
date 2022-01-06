@@ -6,10 +6,33 @@ function RecipesProvider({ children }) {
   const [filteredFood, setFilteredFood] = useState([]);
   const [filteredBeverage, setFilteredBeverage] = useState([]);
 
+  function sliceIngredients(array) {
+    return Object.entries(array)
+      .filter(
+        (ingredients) => ingredients[0].includes('strIngredient')
+        && ingredients[1] !== null
+        && ingredients[1] !== '',
+      )
+      .map((item) => item[1]);
+  }
+
+  function sliceMeasures(array) {
+    return Object.entries(array)
+      .filter(
+        (measure) => measure[0].includes('strMeasure')
+        && measure[1] !== null
+        && measure[1] !== '',
+      )
+      .map((item) => item[1]);
+  }
+
   const contextValue = { filteredFood,
     setFilteredFood,
     filteredBeverage,
-    setFilteredBeverage };
+    setFilteredBeverage,
+    sliceIngredients,
+    sliceMeasures,
+  };
 
   return (
     <RecipesContext.Provider value={ contextValue }>

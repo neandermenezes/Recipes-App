@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router';
 import {
@@ -13,6 +13,7 @@ import {
   getFavoriteRecipes,
   setFavoriteRecipes,
 } from '../services/localStorage';
+import RecipesContext from '../context/RecipesContext';
 
 const copy = require('clipboard-copy');
 
@@ -40,6 +41,7 @@ function FoodDetails(props) {
   const [renderRecomendations, setRecomendations] = useState([]);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
+  const { sliceIngredients, sliceMeasures } = useContext(RecipesContext);
 
   useEffect(() => {
     requestRecipesById(id, 'themealdb').then(({ meals }) => setRecipeInfo(meals[0]));
@@ -59,21 +61,8 @@ function FoodDetails(props) {
     setFavoriteRecipes([]);
   }, []);
 
-  const ingredientsList = Object.entries(recipeInfo)
-    .filter(
-      (ingredients) => ingredients[0].includes('strIngredient')
-        && ingredients[1] !== null
-        && ingredients[1] !== '',
-    )
-    .map((item) => item[1]);
-
-  const measuresList = Object.entries(recipeInfo)
-    .filter(
-      (measure) => measure[0].includes('strMeasure')
-        && measure[1] !== null
-        && measure[1] !== '',
-    )
-    .map((item) => item[1]);
+  const ingredientsList = sliceIngredients(recipeInfo);
+  const measuresList = sliceMeasures(recipeInfo);
 
   const url = strYoutube ? strYoutube.split('=')[1] : strYoutube;
 
