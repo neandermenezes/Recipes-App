@@ -35,6 +35,7 @@ function Food() {
           img={ food.strMealThumb }
           index={ index }
           key={ food.idMeal }
+          testId={ `${index}-recipe-card` }
         />
       )) }
       <Footer />
