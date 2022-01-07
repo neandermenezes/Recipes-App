@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { useHistory } from 'react-router';
 import { setRecipeProgress,
   getRecipeProgress,
   setFavoriteRecipes,
   getFavoriteRecipes } from '../services/localStorage';
-import shareIcon from '../images/shareIcon.svg';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
-
-const copy = require('clipboard-copy');
+import ShareButton from './ShareButton';
+import FavoriteButton from './FavoriteButton';
+import checkIngredientChange from '../helpers';
 
 function ProgressCard({
   photo,
@@ -21,20 +19,12 @@ function ProgressCard({
   type,
   id,
   area,
+  alcoholic,
 }) {
   const history = useHistory();
   const [isCopied, setIsCopied] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
-
-  const checkIngredients = () => {
-    const liSearch = document.querySelectorAll('li');
-    const inputSearch = document.querySelectorAll('input');
-    getRecipeProgress()[type][id].map((index) => {
-      liSearch[index].classList.toggle('selected_step', true);
-      return inputSearch[index].checked;
-    });
-  };
 
   useEffect(() => {
     if (!getRecipeProgress()) {
@@ -43,7 +33,26 @@ function ProgressCard({
         meals: {},
       });
     }
-    return checkIngredients();
+  }, []);
+
+  useEffect(() => {
+    const liSearch = document.querySelectorAll('li');
+    const inputSearch = document.querySelectorAll('input');
+    if (getRecipeProgress()[type][id] && photo !== '') {
+      getRecipeProgress()[type][id].map((index) => {
+        inputSearch[index].defaultChecked = true;
+        return liSearch[index].classList.toggle('selected_step', true);
+      });
+    }
+  }, [photo, id, type]);
+
+  useEffect(() => {
+    if (getFavoriteRecipes()) {
+      return setIsFavorite(
+        getFavoriteRecipes().find((recipe) => recipe.id === id),
+      );
+    }
+    setFavoriteRecipes([]);
   }, []);
 
   const handleFinishButton = () => {
@@ -53,89 +62,44 @@ function ProgressCard({
     return setIsDisabled(true);
   };
 
-  function checkIngredientChange({ target: { checked } }, index) {
-    const recipesInProgressStorage = getRecipeProgress();
-
+  const handleCheck = ({ target: { checked } }, index) => {
     const liSearch = document.querySelectorAll('li')[index];
-    liSearch.classList.toggle('selected_step', checked);
-
-    if (checked) {
-      const newArrayOfIngredients = recipesInProgressStorage[type][id]
-        ? [...recipesInProgressStorage[type][id], index] : [index];
-
-      const result = recipesInProgressStorage[type].length
-        ? { ...recipesInProgressStorage, [type]: { [id]: newArrayOfIngredients } }
-        : { ...recipesInProgressStorage,
-          [type]: { ...recipesInProgressStorage[type], [id]: newArrayOfIngredients } };
-
-      setRecipeProgress(result);
-      return handleFinishButton();
-    }
-    const newArrayOfIngredients = recipesInProgressStorage[type][id]
-      .filter((item) => item !== index);
-
-    const result = recipesInProgressStorage[type].length
-      ? { ...recipesInProgressStorage, [type]: { [id]: newArrayOfIngredients } }
-      : { ...recipesInProgressStorage,
-        [type]: { ...recipesInProgressStorage[type], [id]: newArrayOfIngredients } };
-
-    setRecipeProgress(result);
+    const parameters = [checked, index, type, id, liSearch];
+    checkIngredientChange(parameters);
     return handleFinishButton();
-  }
-
-  const handleShare = async () => {
-    await copy(`http://localhost:3000/${id}`);
-    setIsCopied(true);
   };
 
-  const handleFavorite = () => {
-    if (!isFavorite) {
-      const newFavorite = {
-        id,
-        type: type === 'meals' ? 'comida' : 'bebida',
-        area,
-        category: type === 'meals' ? category : '',
-        alcoholicOrNot: type === 'meals' ? '' : category,
-        name: title,
-        image: photo,
-      };
-      setFavoriteRecipes([...getFavoriteRecipes(), newFavorite]);
-      return setIsFavorite(!isFavorite);
-    }
-
-    const deleteFavorite = getFavoriteRecipes().filter(
-      (recipe) => recipe.id !== id,
-    );
-    setFavoriteRecipes(deleteFavorite);
-    return setIsFavorite(!isFavorite);
-  };
+  const handleFavoriteDependencies = { id,
+    type: type === 'meals' ? 'comida' : 'bebida',
+    area,
+    category,
+    alcoholicOrNot: type === 'meals' ? '' : alcoholic,
+    name: title,
+    image: photo };
 
   return (
     <div>
       <img data-testid="recipe-photo" src={ photo } alt="meal info" />
-      <div>
-        <button type="button" data-testid="share-btn" onClick={ handleShare }>
-          <img src={ shareIcon } alt="share" />
-        </button>
-        {isCopied && <p>Link copiado!</p>}
-      </div>
-      <button type="button" onClick={ handleFavorite }>
-        <img
-          src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
-          alt="heart"
-          data-testid="favorite-btn"
-        />
-      </button>
+      <ShareButton
+        textToCopy={ `http://localhost:3000/${type === 'meals' ? 'comidas' : 'bebidas'}/${id}` }
+        setIsCopied={ setIsCopied }
+        isCopied={ isCopied }
+      />
+      <FavoriteButton
+        isFavorite={ isFavorite }
+        setIsFavorite={ setIsFavorite }
+        id={ id }
+        favoriteDependencies={ handleFavoriteDependencies }
+      />
       <h1 data-testid="recipe-title">{title}</h1>
-      <p data-testid="recipe-category">{category}</p>
+      <p data-testid="recipe-category">{type === 'meals' ? category : alcoholic}</p>
       <h2>Ingredients</h2>
       <ul>
         {ingredients.map((item, index) => (
           <li key={ item } data-testid={ `${index}-ingredient-step` }>
             {`${item} - ${measures[index]}`}
             <input
-              onChange={ (e) => checkIngredientChange(e, index) }
-              onClick={ ({ target }) => console.log(index, target.checked) }
+              onChange={ (e) => handleCheck(e, index) }
               type="checkbox"
             />
           </li>
@@ -156,15 +120,29 @@ function ProgressCard({
 }
 
 ProgressCard.propTypes = {
-  photo: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  category: PropTypes.string.isRequired,
-  ingredients: PropTypes.arrayOf(PropTypes.string).isRequired,
-  measures: PropTypes.arrayOf(PropTypes.string).isRequired,
-  instructions: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  id: PropTypes.number.isRequired,
-  area: PropTypes.string.isRequired,
+  photo: PropTypes.string,
+  title: PropTypes.string,
+  category: PropTypes.string,
+  ingredients: PropTypes.arrayOf(PropTypes.string),
+  measures: PropTypes.arrayOf(PropTypes.string),
+  instructions: PropTypes.string,
+  type: PropTypes.string,
+  id: PropTypes.string,
+  area: PropTypes.string,
+  alcoholic: PropTypes.string,
+};
+
+ProgressCard.defaultProps = {
+  photo: '',
+  title: '',
+  category: '',
+  ingredients: [],
+  measures: [],
+  instructions: '',
+  type: '',
+  id: '',
+  area: '',
+  alcoholic: '',
 };
 
 export default ProgressCard;

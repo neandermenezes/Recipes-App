@@ -18,6 +18,7 @@ function BeverageInProgress(props) {
     strDrink,
     strAlcoholic,
     strInstructions,
+    strCategory,
   } = recipeInfo;
 
   const ingredientsList = sliceIngredients(recipeInfo);
@@ -32,7 +33,8 @@ function BeverageInProgress(props) {
     <ProgressCard
       photo={ strDrinkThumb }
       title={ strDrink }
-      category={ strAlcoholic }
+      alcoholic={ strAlcoholic }
+      category={ strCategory }
       ingredients={ ingredientsList }
       measures={ measuresList }
       instructions={ strInstructions }

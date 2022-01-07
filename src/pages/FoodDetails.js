@@ -5,17 +5,14 @@ import {
   requestFoodsOrDrinks,
   requestRecipesById,
 } from '../services/fetchAPIs';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
-import shareIcon from '../images/shareIcon.svg';
 import Card from '../components/Card';
 import {
   getFavoriteRecipes,
   setFavoriteRecipes,
 } from '../services/localStorage';
 import RecipesContext from '../context/RecipesContext';
-
-const copy = require('clipboard-copy');
+import ShareButton from '../components/ShareButton';
+import FavoriteButton from '../components/FavoriteButton';
 
 const currentURL = window.location.href;
 
@@ -66,31 +63,14 @@ function FoodDetails(props) {
 
   const url = strYoutube ? strYoutube.split('=')[1] : strYoutube;
 
-  const handleShare = async () => {
-    await copy(currentURL);
-    setIsCopied(true);
-  };
-
-  const handleFavorite = () => {
-    if (!isFavorite) {
-      const newFavorite = {
-        id,
-        type: 'comida',
-        area: strArea,
-        category: strCategory,
-        alcoholicOrNot: '',
-        name: strMeal,
-        image: strMealThumb,
-      };
-      setFavoriteRecipes([...getFavoriteRecipes(), newFavorite]);
-      return setIsFavorite(!isFavorite);
-    }
-
-    const deleteFavorite = getFavoriteRecipes().filter(
-      (recipe) => recipe.id !== id,
-    );
-    setFavoriteRecipes(deleteFavorite);
-    return setIsFavorite(!isFavorite);
+  const handleFavoriteDependencies = {
+    id,
+    type: 'comida',
+    area: strArea,
+    category: strCategory,
+    alcoholicOrNot: '',
+    name: strMeal,
+    image: strMealThumb,
   };
 
   return (
@@ -99,19 +79,17 @@ function FoodDetails(props) {
         <img src={ strMealThumb } alt="food" data-testid="recipe-photo" />
         <h1 data-testid="recipe-title">{strMeal}</h1>
         <h2 data-testid="recipe-category">{strCategory}</h2>
-        <div>
-          <button type="button" data-testid="share-btn" onClick={ handleShare }>
-            <img src={ shareIcon } alt="share" />
-          </button>
-          {isCopied && <p>Link copiado!</p>}
-        </div>
-        <button type="button" onClick={ handleFavorite }>
-          <img
-            src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
-            alt="heart"
-            data-testid="favorite-btn"
-          />
-        </button>
+        <ShareButton
+          textToCopy={ currentURL }
+          setIsCopied={ setIsCopied }
+          isCopied={ isCopied }
+        />
+        <FavoriteButton
+          isFavorite={ isFavorite }
+          setIsFavorite={ setIsFavorite }
+          id={ id }
+          favoriteDependencies={ handleFavoriteDependencies }
+        />
       </div>
       <ul>
         {ingredientsList.map((ingredient, index) => (
