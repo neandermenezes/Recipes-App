@@ -35,6 +35,8 @@ function FoodInProgress(props) {
       ingredients={ ingredientsList }
       measures={ measuresList }
       instructions={ strInstructions }
+      type='meals'
+      id={id}
     />
   );
 }

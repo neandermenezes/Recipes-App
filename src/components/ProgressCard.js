@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { setRecipeProgress } from '../services/localStorage';
 
 function ProgressCard({
   photo,
@@ -9,8 +10,34 @@ function ProgressCard({
   ingredients,
   measures,
   instructions,
+  type,
+  id
 }) {
   const history = useHistory();
+
+
+  function checkIngredientChange({ target: { checked }}, index) {
+    if(checked) {
+      const ojbStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
+      const ingredients = ojbStorage[type][id] ? [...ojbStorage[type][id], index] : [index];
+      const result = ojbStorage[type].length ? {...ojbStorage, [type]: { [id]: ingredients } } : {...ojbStorage, [type]: { ...ojbStorage[type], [id]: ingredients } }
+      setRecipeProgress(result)
+
+      const liSearch = document.querySelectorAll('li')[index].innerText
+      const liResult = ('<s>' + liSearch + '</s>')
+      document.querySelectorAll('li')[index].innerHTML = liResult;
+
+      console.log(liSearch)
+    } else {
+      const ojbStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
+      const ingredients = ojbStorage[type][id].filter((item) => item != index);
+      const result = ojbStorage[type].length ? {...ojbStorage, [type]: { [id]: ingredients } } : {...ojbStorage, [type]: { ...ojbStorage[type], [id]: ingredients } }
+      setRecipeProgress(result)
+
+      const liSearch = document.querySelectorAll('li')[index].innerText
+      document.querySelectorAll('li')[index].innerHTML = liSearch;
+    }
+  }
 
   return (
     <div>
@@ -26,14 +53,18 @@ function ProgressCard({
       <h2>Ingredients</h2>
       <ul>
         {ingredients.map((item, index) => (
-          <li key={ item } data-testid={ `${index}-ingredient-step` }>
-            {`${item} - ${measures[index]}`}
+          <div>
+            <li key={ item } data-testid={ `${index}-ingredient-step` }>
+              {`${item} - ${measures[index]}`}
+
+              {/* TEM QUE FAZER ISSO AQUI RISCAR O ITEM */}
+            </li>
             <input
-              onClick={ ({ target }) => console.log(index, target.checked) }
-              type="checkbox"
+            onChange={ (e) => checkIngredientChange(e, index) }
+            onClick={ ({ target }) => console.log(index, target.checked) }
+            type="checkbox"
             />
-            {/* TEM QUE FAZER ISSO AQUI RISCAR O ITEM */}
-          </li>
+          </div>
         ))}
       </ul>
       <h2>Instructions</h2>

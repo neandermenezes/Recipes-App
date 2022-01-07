@@ -36,6 +36,8 @@ function BeverageInProgress(props) {
       ingredients={ ingredientsList }
       measures={ measuresList }
       instructions={ strInstructions }
+      type='cocktails'
+      id={ id }
     />
   );
 }
