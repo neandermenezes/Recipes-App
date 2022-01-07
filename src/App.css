@@ -62,3 +62,7 @@ body {
 .recomended-card__title {
   color: black;
 }
+
+.favorite-image {
+  width: 200px;
+}

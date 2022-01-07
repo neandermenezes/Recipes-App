@@ -1,14 +1,9 @@
 import React, { useEffect, useState } from 'react';
-
-import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import { getFavoriteRecipes, setFavoriteRecipes } from '../services/localStorage';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
-import shareIcon from '../images/shareIcon.svg';
+import FavoriteCard from '../components/FavoriteCard';
 
 const copy = require('clipboard-copy');
-
-const currentURL = window.location.href;
 
 function FavoriteRecipes() {
   const [favorites, setFavorites] = useState([]);
@@ -23,8 +18,9 @@ function FavoriteRecipes() {
     if (filteredRecipes.length) return setRenderFavorites(filteredRecipes);
     return setRenderFavorites(favorites);
   }, [favorites, filteredRecipes]);
-  const handleShare = async () => {
-    await copy(currentURL);
+
+  const handleShare = async ({ target: { id } }) => {
+    await copy(`http://localhost:3000/${id}`);
     setIsCopied(true);
   };
   const handleFavorite = ({ target: { id } }) => {
@@ -75,74 +71,29 @@ function FavoriteRecipes() {
         if (recipe.type === 'comida') {
           return (
             <div key={ recipe.name }>
-              <Link to={ `/comidas/${recipe.id}` }>
-                <img
-                  data-testid={ `${index}-horizontal-image` }
-                  src={ recipe.image }
-                  alt={ recipe.name }
-                />
-                <h3 data-testid={ `${index}-horizontal-name` }>
-                  { recipe.name }
-                </h3>
-              </Link>
-              <h4 data-testid={ `${index}-horizontal-top-text` }>
-                { recipe.category }
-              </h4>
-              <h5>{ recipe.area }</h5>
-              <div>
-                <button
-                  type="button"
-                  data-testid={ `${index}-horizontal-share-btn` }
-                  onClick={ handleShare }
-                >
-                  <img src={ shareIcon } alt="share" />
-                </button>
-                {isCopied && <p>Link copiado!</p>}
-                <button type="button" onClick={ handleFavorite }>
-                  <img
-                    src={ blackHeartIcon }
-                    alt="heart"
-                    data-testid="favorite-btn"
-                    id={ recipe.name }
-                  />
-                </button>
-              </div>
+              <FavoriteCard
+                type="comidas"
+                recipe={ recipe }
+                index={ index }
+                topText={ `${recipe.area} - ${recipe.category}` }
+                handleFavorite={ handleFavorite }
+                handleShare={ handleShare }
+                isCopied={ isCopied }
+              />
             </div>
           );
         }
         return (
           <div key={ recipe.name }>
-            <Link to={ `/bebidas/${recipe.id}` }>
-              <img
-                data-testid={ `${index}-horizontal-image` }
-                src={ recipe.image }
-                alt={ recipe.name }
-              />
-              <h3 data-testid={ `${index}-horizontal-name` }>
-                { recipe.name }
-              </h3>
-            </Link>
-            <h4 data-testid={ `${index}-horizontal-top-text` }>
-              { recipe.alcoholicOrNot }
-            </h4>
-            <div>
-              <button
-                type="button"
-                data-testid={ `${index}-horizontal-share-btn` }
-                onClick={ handleShare }
-              >
-                <img src={ shareIcon } alt="share" />
-              </button>
-              {isCopied && <p>Link copiado!</p>}
-              <button type="button" onClick={ handleFavorite }>
-                <img
-                  src={ blackHeartIcon }
-                  alt="heart"
-                  data-testid="favorite-btn"
-                  id={ recipe.name }
-                />
-              </button>
-            </div>
+            <FavoriteCard
+              type="bebidas"
+              recipe={ recipe }
+              index={ index }
+              topText={ recipe.alcoholicOrNot }
+              handleFavorite={ handleFavorite }
+              handleShare={ handleShare }
+              isCopied={ isCopied }
+            />
           </div>
         );
       }) }
