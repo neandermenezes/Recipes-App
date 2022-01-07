@@ -6,8 +6,8 @@ function RecipesProvider({ children }) {
   const [filteredFood, setFilteredFood] = useState([]);
   const [filteredBeverage, setFilteredBeverage] = useState([]);
 
-  function sliceIngredients(array) {
-    return Object.entries(array)
+  function sliceIngredients(obj) {
+    return Object.entries(obj)
       .filter(
         (ingredients) => ingredients[0].includes('strIngredient')
         && ingredients[1] !== null
@@ -16,8 +16,8 @@ function RecipesProvider({ children }) {
       .map((item) => item[1]);
   }
 
-  function sliceMeasures(array) {
-    return Object.entries(array)
+  function sliceMeasures(obj) {
+    return Object.entries(obj)
       .filter(
         (measure) => measure[0].includes('strMeasure')
         && measure[1] !== null

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import ProgressCard from '../components/ProgressCard';
 import RecipesContext from '../context/RecipesContext';
+import ProgressCard from '../components/ProgressCard';
 import { requestRecipesById } from '../services/fetchAPIs';
 
 function BeverageInProgress(props) {
@@ -36,8 +36,9 @@ function BeverageInProgress(props) {
       ingredients={ ingredientsList }
       measures={ measuresList }
       instructions={ strInstructions }
-      type='cocktails'
+      type="cocktails"
       id={ id }
+      area=""
     />
   );
 }

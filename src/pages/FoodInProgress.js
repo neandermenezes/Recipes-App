@@ -18,6 +18,7 @@ function FoodInProgress(props) {
     strMeal,
     strCategory,
     strInstructions,
+    strArea,
   } = recipeInfo;
 
   const ingredientsList = sliceIngredients(recipeInfo);
@@ -35,8 +36,9 @@ function FoodInProgress(props) {
       ingredients={ ingredientsList }
       measures={ measuresList }
       instructions={ strInstructions }
-      type='meals'
-      id={id}
+      type="meals"
+      id={ id }
+      area={ strArea }
     />
   );
 }

@@ -62,3 +62,7 @@ body {
 .recomended-card__title {
   color: black;
 }
+
+.selected_step {
+  text-decoration: line-through;
+}

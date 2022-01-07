@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import profileIcon from '../images/profileIcon.svg';
-import { getRecipeProgress, setRecipeProgress } from '../services/localStorage';
 
 const MIN_PASSWORD_LENGTH = 6;
 
@@ -14,15 +13,6 @@ function Login({ history }) {
     if (id === 'email') setEmail(value);
     else setPassword(value);
   };
-
-  useEffect(() => {
-    if (!getRecipeProgress()) {
-      setRecipeProgress({
-        cocktails: {},
-        meals: {},
-      });
-    }
-  }, []);
 
   useEffect(() => {
     if (password.length > MIN_PASSWORD_LENGTH
