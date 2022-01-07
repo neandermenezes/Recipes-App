@@ -1,31 +1,45 @@
 import React, { useState, useEffect } from 'react';
 import Card from '../components/Card';
-import DropdownArea from '../components/DropdownArea';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import { MAX_MAP_LENGTH } from '../context/RecipesProvider';
-import { requestRecipesByArea } from '../services/fetchAPIs';
+import { requestRecipesByArea, requestAreas } from '../services/fetchAPIs';
 
 function FoodExplorerByArea() {
   const [areaSelected, setAreaSelected] = useState('All');
   const [mealsByArea, setMealsByArea] = useState([]);
+  const [mealsOptions, setMealsOptions] = useState([]);
 
   useEffect(() => {
-    requestRecipesByArea(areaSelected)
-      .then(({ meals }) => setMealsByArea(meals.slice(0, MAX_MAP_LENGTH)));
+    requestAreas().then(({ meals }) => setMealsOptions(meals));
+  }, []);
+
+  useEffect(() => {
+    requestRecipesByArea(areaSelected).then(({ meals }) => setMealsByArea(meals));
   }, [areaSelected]);
+
+  console.log(mealsOptions);
 
   const handleSelectedOption = (area) => {
     setAreaSelected(area);
   };
 
-  console.log(mealsByArea);
-
   return (
     <div>
       <Header name="Explorar Origem" search />
-      <DropdownArea handleArea={ handleSelectedOption } />
-      { mealsByArea.map((meal, index) => (
+      <select
+        onChange={ ({ target }) => handleSelectedOption(target.value) }
+        data-testid="explore-by-area-dropdown"
+      >
+        <option data-testid="All-option" value="All">All</option>
+        { mealsOptions.map(({ strArea }) => (
+          <option data-testid={ `${strArea}-option` } key={ strArea }>
+            {strArea}
+          </option>
+        ))}
+      </select>
+
+      {mealsByArea.slice(0, MAX_MAP_LENGTH).map((meal, index) => (
         <Card
           id="idMeal"
           itemId={ meal.idMeal }
@@ -35,7 +49,7 @@ function FoodExplorerByArea() {
           key={ meal.idMeal }
           testId={ `${index}-recipe-card` }
         />
-      )) }
+      ))}
       <Footer />
     </div>
   );
