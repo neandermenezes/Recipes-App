@@ -82,3 +82,18 @@ export async function requestRecipesById(id, urlByCategory) {
   const result = await response.json();
   return result;
 }
+
+export async function requestAreas() {
+  const response = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?a=list');
+  const result = await response.json();
+  return result;
+}
+
+export async function requestRecipesByArea(area) {
+  if (area === 'All') {
+    return requestFoodsOrDrinks('themealdb');
+  }
+  const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?a=${area}`);
+  const result = await response.json();
+  return result;
+}

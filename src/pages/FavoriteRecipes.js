@@ -23,6 +23,7 @@ function FavoriteRecipes() {
     await copy(`http://localhost:3000/${id}`);
     setIsCopied(true);
   };
+
   const handleFavorite = ({ target: { id } }) => {
     const deleteFavorite = getFavoriteRecipes().filter(
       (recipe) => recipe.name !== id,
@@ -30,14 +31,17 @@ function FavoriteRecipes() {
     setFavoriteRecipes(deleteFavorite);
     setFavorites(deleteFavorite);
   };
+
   const handleFilter = ({ target: { id } }) => {
     const type = id === 'Food' ? 'comida' : 'bebida';
     const filterFavorites = favorites.filter((recipe) => recipe.type === type);
     setFilteredRecipes(filterFavorites);
   };
+
   const handleAll = () => {
     setFilteredRecipes([]);
   };
+
   return (
     <div>
       <Header name="Receitas Favoritas" />
