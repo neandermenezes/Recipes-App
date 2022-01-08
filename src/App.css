@@ -1,3 +1,22 @@
+:root {
+
+  --orange-primary: #e99342;
+
+  --orange-lighter: #eb9e55;
+
+  --orange-darker: #d2843b;
+
+  --green-primary: #3c6f51;
+
+  --white-primary: #f3f9fb;
+
+  --black-primary: #3e4040;
+
+  --gray-primary: #505050;
+
+  --red-primary: #ea5455;
+}
+
 * {
   box-sizing: inherit;
   margin: 0;
