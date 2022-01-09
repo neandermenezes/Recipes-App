@@ -20,7 +20,8 @@ function Login({ history }) {
       .test(email)) { setButtonState(false); } else setButtonState(true);
   }, [email, password]);
 
-  const saveAndRedirect = () => {
+  const saveAndRedirect = (e) => {
+    e.preventDefault();
     const objEmail = { email };
     localStorage.setItem('mealsToken', '1');
     localStorage.setItem('cocktailsToken', '1');
@@ -35,7 +36,7 @@ function Login({ history }) {
         <p className="login__text">Bem vindo!</p>
         <p className="login__text--sub">Sentimos sua falta!</p>
       </div>
-      <form className="login__form">
+      <form onSubmit={ (e) => saveAndRedirect(e) } className="login__form">
         <input
           placeholder="Email"
           className="login__input"
@@ -55,8 +56,8 @@ function Login({ history }) {
         <button
           className={ !buttonState ? 'login__btn' : 'login__btn-disabled' }
           disabled={ buttonState }
-          type="button"
-          onClick={ saveAndRedirect }
+          type="submit"
+          // onClick={ saveAndRedirect }
           data-testid="login-submit-btn"
         >
           Entrar

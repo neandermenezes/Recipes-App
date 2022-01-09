@@ -3,11 +3,9 @@
   background-image: linear-gradient(to right bottom, #1212128c, #121212e6) , url('../images/background.jpeg');
   background-position: center;
   background-size: cover;
-  border-radius: 7px;
   display: flex;
   flex-direction: column;
-  height: 98vh;
-  margin: 5px;
+  height: 100vh;
 }
 
 .text-container {
@@ -18,16 +16,15 @@
 }
 
 .login__header {
-  background-color: var(--orange-primary);
-  border-bottom-left-radius: 7px;
-  border-bottom-right-radius: 7px;
+  background-color: rgba(233, 147, 66, 0.85);
   color: var(--white-primary);
   display: block;
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 400;
-  letter-spacing: 4px;
+  letter-spacing: -2px;
   text-align: center;
   width: 100%;
+  word-spacing: 5px;
 }
 
 .login__text {
@@ -51,7 +48,7 @@
 
 .login__input {
   background-color: var(--gray-primary);
-  border: 2px solid var(--orange-primary);
+  border: none;
   border-radius: 5px;
   color: var(--white-primary);
   font-size: 0.9rem;

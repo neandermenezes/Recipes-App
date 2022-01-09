@@ -24,7 +24,7 @@ function Food() {
   }, [filteredFood, foods]);
 
   return (
-    <div>
+    <div className="page-container">
       <Header name="Comidas" search />
       <FilterButtons url="themealdb" type="meals" />
       { renderFoods && renderFoods.map((food, index) => (

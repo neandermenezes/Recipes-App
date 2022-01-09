@@ -6,6 +6,7 @@ import {
   requestRecipesByCategory,
 } from '../services/fetchAPIs';
 import RecipesContext from '../context/RecipesContext';
+import '../css/FilterButtons.css';
 
 const MAX_MAP_LENGTH = 5;
 
@@ -55,10 +56,11 @@ function FilterButtons({ url, type }) {
   const renderButtons = categories.slice(0, MAX_MAP_LENGTH);
 
   return (
-    <div>
+    <div className="filters">
       {renderButtons
         && renderButtons.map(({ strCategory }) => (
           <button
+            className="filters__btn"
             key={ strCategory }
             type="button"
             data-testid={ `${strCategory}-category-filter` }
@@ -69,6 +71,7 @@ function FilterButtons({ url, type }) {
           </button>
         ))}
       <button
+        className="filters__btn"
         data-testid="All-category-filter"
         type="button"
         onClick={ resetFilters }

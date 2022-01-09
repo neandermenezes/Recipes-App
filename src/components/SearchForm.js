@@ -1,7 +1,11 @@
 import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router';
 import RecipesContext from '../context/RecipesContext';
-import { requestFilteredFoods, requestFilteredDrinks } from '../services/fetchAPIs';
+import {
+  requestFilteredFoods,
+  requestFilteredDrinks,
+} from '../services/fetchAPIs';
+import '../css/SearchForm.css';
 
 function SearchForm() {
   const { setFilteredFood, setFilteredBeverage } = useContext(RecipesContext);
@@ -22,8 +26,9 @@ function SearchForm() {
       const id = category === 'comidas' ? 'idMeal' : 'idDrink';
       history.push(`/${category}/${result[0][id]}`);
     } else {
-      return category
-      === 'comidas' ? setFilteredFood(result) : setFilteredBeverage(result);
+      return category === 'comidas'
+        ? setFilteredFood(result)
+        : setFilteredBeverage(result);
     }
   };
 
@@ -43,22 +48,36 @@ function SearchForm() {
         redirectByLength(result.meals, 'comidas');
       }
     } catch (error) {
-      global.alert('Sinto muito, não encontramos nenhuma receita para esses filtros.');
+      global.alert(
+        'Sinto muito, não encontramos nenhuma receita para esses filtros.',
+      );
       return error;
     }
   };
 
   return (
-    <form>
-      <input
-        type="text"
-        data-testid="search-input"
-        onChange={ ({ target: { value } }) => setSearchText(value) }
-      />
-      <div>
-        <label htmlFor="ingredient">
-          Ingrediente
+    <form className="search">
+      <div className="search__main">
+        <input
+          placeholder="Pesquisar"
+          className="search__input"
+          type="text"
+          data-testid="search-input"
+          onChange={ ({ target: { value } }) => setSearchText(value) }
+        />
+        <button
+          className="login__btn search__btn"
+          type="button"
+          data-testid="exec-search-btn"
+          onClick={ handleClick }
+        >
+          Busca
+        </button>
+      </div>
+      <div className="search__filter">
+        <label className="search__label" htmlFor="ingredient">
           <input
+            className="search__checkbox"
             id="ingredient"
             name="searchType"
             type="radio"
@@ -66,10 +85,11 @@ function SearchForm() {
             data-testid="ingredient-search-radio"
             onChange={ handleRadio }
           />
+          Ingrediente
         </label>
-        <label htmlFor="name">
-          Nome
+        <label className="search__label" htmlFor="name">
           <input
+            className="search__checkbox"
             id="name"
             name="searchType"
             type="radio"
@@ -77,10 +97,11 @@ function SearchForm() {
             data-testid="name-search-radio"
             onChange={ handleRadio }
           />
+          Nome
         </label>
-        <label htmlFor="letter">
-          Letra
+        <label className="search__label" htmlFor="letter">
           <input
+            className="search__checkbox"
             id="letter"
             name="searchType"
             type="radio"
@@ -88,16 +109,9 @@ function SearchForm() {
             data-testid="first-letter-search-radio"
             onChange={ handleRadio }
           />
+          Letra
         </label>
       </div>
-      <button
-        type="button"
-        data-testid="exec-search-btn"
-        onClick={ handleClick }
-      >
-        Busca
-
-      </button>
     </form>
   );
 }

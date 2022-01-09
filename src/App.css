@@ -17,6 +17,11 @@
   --red-primary: #ea5455;
 }
 
+.page-container {
+  background-color: #121212;
+  min-height: 100vh;
+}
+
 * {
   box-sizing: inherit;
   margin: 0;
