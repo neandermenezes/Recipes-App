@@ -28,7 +28,7 @@ function BeverageInProgress(props) {
   useEffect(() => {
     requestRecipesById(id, 'thecocktaildb')
       .then(({ drinks }) => setRecipeInfo(drinks[0]));
-  }, []);
+  }, [id]);
 
   return (
     <ProgressCard

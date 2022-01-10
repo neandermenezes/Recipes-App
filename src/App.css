@@ -70,3 +70,7 @@ body {
 .favorite-image {
   width: 200px;
 }
+
+.hidden-start-recipe-btn {
+  display: none;
+}

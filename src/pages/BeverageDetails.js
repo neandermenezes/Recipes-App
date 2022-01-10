@@ -7,7 +7,9 @@ import {
 } from '../services/fetchAPIs';
 import Card from '../components/Card';
 import {
+  getDoneRecipes,
   getFavoriteRecipes,
+  getRecipeProgress,
   setFavoriteRecipes,
 } from '../services/localStorage';
 import RecipesContext from '../context/RecipesContext';
@@ -33,15 +35,33 @@ function BeverageDetails(props) {
     strAlcoholic,
     strInstructions,
   } = recipeInfo;
+  const [isDone, setIsDone] = useState(false);
+  const [isInProgress, setIsInProgressDone] = useState(false);
   const [renderRecomendations, setRecomendations] = useState([]);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
   const { sliceIngredients, sliceMeasures } = useContext(RecipesContext);
 
   useEffect(() => {
+    if (getDoneRecipes()) {
+      const currentRecipeIsDone = getDoneRecipes().find((recipe) => recipe.id === id);
+      return setIsDone(currentRecipeIsDone);
+    }
+    return setIsDone(false);
+  }, [id]);
+
+  useEffect(() => {
+    if (getRecipeProgress()) {
+      const currentRecipeIsInProgress = !!getRecipeProgress().cocktails[id];
+      return setIsInProgressDone(currentRecipeIsInProgress);
+    }
+    return setIsInProgressDone(false);
+  }, [id]);
+
+  useEffect(() => {
     requestRecipesById(id, 'thecocktaildb')
       .then(({ drinks }) => setRecipeInfo(drinks[0]));
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     requestFoodsOrDrinks('themealdb')
@@ -55,7 +75,7 @@ function BeverageDetails(props) {
       );
     }
     setFavoriteRecipes([]);
-  }, []);
+  }, [id]);
 
   const ingredientsList = sliceIngredients(recipeInfo);
   const measuresList = sliceMeasures(recipeInfo);
@@ -117,14 +137,12 @@ function BeverageDetails(props) {
         </div>
       </div>
       <button
-        className="start-recipe-btn"
+        className={ isDone ? 'hidden-start-recipe-btn' : 'start-recipe-btn' }
         type="button"
         onClick={ () => history.push(`/bebidas/${id}/in-progress`) }
-        // disabled (se a receita já foi feita)
         data-testid="start-recipe-btn"
       >
-        Iniciar Receita
-        {/* ou texto continuar receita caso ela esteja em progresso */}
+        {isInProgress ? 'Continuar Receita' : 'Iniciar Receita' }
       </button>
     </div>
   );
