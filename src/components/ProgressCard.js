@@ -38,12 +38,7 @@ function ProgressCard({
     }
   }, []);
 
-  useEffect(() => {
-    const liSearch = document.querySelectorAll('li');
-    const inputSearch = document.querySelectorAll('input');
-    const parameters = [id, type, photo, liSearch, inputSearch];
-    loadProgressPage(parameters);
-  }, [photo, id, type]);
+  useEffect(() => loadProgressPage(type, id, photo), [photo, id, type]);
 
   useEffect(() => {
     if (getFavoriteRecipes()) {
@@ -52,7 +47,7 @@ function ProgressCard({
       );
     }
     setFavoriteRecipes([]);
-  }, []);
+  }, [id]);
 
   const handleFinishButton = () => {
     if (ingredients.length === getRecipeProgress()[type][id].length) {

@@ -21,8 +21,10 @@ export function checkIngredientChange([checked, index, type, id, liSearch]) {
   return setRecipeProgress(result);
 }
 
-export function loadProgressPage([liSearch, inputSearch, type, id, photo]) {
+export function loadProgressPage(type, id, photo) {
   if (getRecipeProgress()[type][id] && photo !== '') {
+    const liSearch = document.querySelectorAll('li');
+    const inputSearch = document.querySelectorAll('input');
     getRecipeProgress()[type][id].map((index) => {
       inputSearch[index].defaultChecked = true;
       return liSearch[index].classList.toggle('selected_step', true);

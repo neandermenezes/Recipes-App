@@ -27,7 +27,7 @@ function FoodInProgress(props) {
 
   useEffect(() => {
     requestRecipesById(id, 'themealdb').then(({ meals }) => setRecipeInfo(meals[0]));
-  }, []);
+  }, [id]);
 
   return (
     <ProgressCard
