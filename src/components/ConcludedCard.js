@@ -16,7 +16,7 @@ function ConcludedCard({ type,
   const [arrayTags, setArrayTags] = useState([]);
   useEffect(() => {
     if (tags) {
-      const array = tags !== '' ? tags.toString().split(',') : [];
+      const array = tags !== '' ? tags.toString().split(',').slice(0, 2) : [];
       return setArrayTags(array);
     }
   }, [tags]);
