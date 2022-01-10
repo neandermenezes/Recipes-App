@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import RecipesContext from './RecipesContext';
 
+export const MAX_MAP_LENGTH = 12;
+
 function RecipesProvider({ children }) {
   const [filteredFood, setFilteredFood] = useState([]);
   const [filteredBeverage, setFilteredBeverage] = useState([]);
