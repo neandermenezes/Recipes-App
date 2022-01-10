@@ -35,35 +35,32 @@
   flex-direction: column;
   height: 80%;
   justify-content: space-between;
-  left: 18%;
   padding: 1rem 0;
   position: absolute;
   top: 27%;
+  width: 100%;
 }
 
 .recipe-card__title {
   align-self: center;
   color: var(--red-primary);
   font-size: 0.8rem;
+  height: 80px;
+  overflow-y: hidden;
+  padding: 5px 10px;
   position: relative;
-}
-
-.recipe-card__title:before {
-  background-color: var(--red-primary);
-  border-radius: 50%;
-  content: '';
-  height: 5px;
-  left: -7px;
-  position: absolute;
-  top: 40%;
-  width: 5px;
+  text-align: center;
+  width: 100%;
 }
 
 .recipe-card__redirect {
   align-self: flex-end;
+  bottom: 12px;
   color: var(--white-primary);
   font-size: 0.65rem;
+  left: 13%;
   margin: 0;
+  position: absolute;
   width: 100%;
 }
 

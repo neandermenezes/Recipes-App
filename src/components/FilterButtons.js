@@ -12,7 +12,7 @@ const MAX_MAP_LENGTH = 5;
 
 function FilterButtons({ url, type }) {
   const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('All');
   const {
     location: { pathname },
   } = useHistory();
@@ -23,7 +23,7 @@ function FilterButtons({ url, type }) {
     console.log(selectedCategory);
     console.log(btns);
     if (id === selectedCategory) {
-      setSelectedCategory('');
+      setSelectedCategory('All');
       return setFilteredBeverage([]);
     }
     const result = await requestRecipesByCategory(id, 'thecocktaildb');
@@ -33,7 +33,7 @@ function FilterButtons({ url, type }) {
 
   const filterFood = async (id) => {
     if (id === selectedCategory) {
-      setSelectedCategory('');
+      setSelectedCategory('All');
       return setFilteredFood([]);
     }
     const result = await requestRecipesByCategory(id, 'themealdb');
@@ -47,6 +47,7 @@ function FilterButtons({ url, type }) {
   };
 
   const resetFilters = () => {
+    setSelectedCategory('All');
     if (pathname === '/bebidas') return setFilteredBeverage([]);
     return setFilteredFood([]);
   };
@@ -61,6 +62,14 @@ function FilterButtons({ url, type }) {
     <>
       <p className="description">Categories</p>
       <div className="filters">
+        <button
+          className={ selectedCategory === 'All' ? 'selected' : 'filters__btn' }
+          data-testid="All-category-filter"
+          type="button"
+          onClick={ resetFilters }
+        >
+          All
+        </button>
         {renderButtons
         && renderButtons.map(({ strCategory }) => (
           <button
@@ -74,14 +83,6 @@ function FilterButtons({ url, type }) {
             {strCategory}
           </button>
         ))}
-        <button
-          className="filters__btn"
-          data-testid="All-category-filter"
-          type="button"
-          onClick={ resetFilters }
-        >
-          All
-        </button>
       </div>
     </>
   );

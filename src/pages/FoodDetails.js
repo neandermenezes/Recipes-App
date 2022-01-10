@@ -132,7 +132,6 @@ function FoodDetails(props) {
           >
             <img className="details__icon" src={ shareIcon } alt="share" />
           </button>
-          {isCopied && <p>Link copiado!</p>}
           <button
             className="details__favorite"
             type="button"
@@ -147,6 +146,7 @@ function FoodDetails(props) {
           </button>
         </div>
       </div>
+      {isCopied && <p className="link margin-left">Link copiado!</p>}
       <p className="details__description margin-left">Ingredientes:</p>
       <ul className="ingredient-list">
         {ingredientsList.map((ingredient, index) => (
