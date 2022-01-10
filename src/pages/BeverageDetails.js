@@ -1,20 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router';
 import {
   requestFoodsOrDrinks,
   requestRecipesById,
 } from '../services/fetchAPIs';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
-import shareIcon from '../images/shareIcon.svg';
 import Card from '../components/Card';
 import {
   getFavoriteRecipes,
   setFavoriteRecipes,
 } from '../services/localStorage';
-
-const copy = require('clipboard-copy');
+import RecipesContext from '../context/RecipesContext';
+import ShareButton from '../components/ShareButton';
+import FavoriteButton from '../components/FavoriteButton';
 
 const currentURL = window.location.href;
 
@@ -38,6 +36,7 @@ function BeverageDetails(props) {
   const [renderRecomendations, setRecomendations] = useState([]);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
+  const { sliceIngredients, sliceMeasures } = useContext(RecipesContext);
 
   useEffect(() => {
     requestRecipesById(id, 'thecocktaildb')
@@ -58,47 +57,17 @@ function BeverageDetails(props) {
     setFavoriteRecipes([]);
   }, []);
 
-  const ingredientsList = Object.entries(recipeInfo)
-    .filter(
-      (ingredients) => ingredients[0].includes('strIngredient')
-        && ingredients[1] !== null
-        && ingredients[1] !== '',
-    )
-    .map((item) => item[1]);
+  const ingredientsList = sliceIngredients(recipeInfo);
+  const measuresList = sliceMeasures(recipeInfo);
 
-  const measuresList = Object.entries(recipeInfo)
-    .filter(
-      (measure) => measure[0].includes('strMeasure')
-        && measure[1] !== null
-        && measure[1] !== '',
-    )
-    .map((item) => item[1]);
-
-  const handleShare = async () => {
-    await copy(currentURL);
-    setIsCopied(true);
-  };
-
-  const handleFavorite = () => {
-    if (!isFavorite) {
-      const newFavorite = {
-        id,
-        type: 'bebida',
-        area: '',
-        category: strCategory,
-        alcoholicOrNot: strAlcoholic,
-        name: strDrink,
-        image: strDrinkThumb,
-      };
-      setFavoriteRecipes([...getFavoriteRecipes(), newFavorite]);
-      return setIsFavorite(!isFavorite);
-    }
-
-    const deleteFavorite = getFavoriteRecipes().filter(
-      (recipe) => recipe.id !== id,
-    );
-    setFavoriteRecipes(deleteFavorite);
-    return setIsFavorite(!isFavorite);
+  const handleFavoriteDependencies = {
+    id,
+    type: 'bebida',
+    area: '',
+    category: strCategory,
+    alcoholicOrNot: strAlcoholic,
+    name: strDrink,
+    image: strDrinkThumb,
   };
 
   return (
@@ -107,19 +76,17 @@ function BeverageDetails(props) {
         <img src={ strDrinkThumb } alt="food" data-testid="recipe-photo" />
         <h1 data-testid="recipe-title">{strDrink}</h1>
         <h2 data-testid="recipe-category">{strAlcoholic}</h2>
-        <div>
-          <button type="button" data-testid="share-btn" onClick={ handleShare }>
-            <img src={ shareIcon } alt="share" />
-          </button>
-          {isCopied && <p>Link copiado!</p>}
-        </div>
-        <button type="button" onClick={ handleFavorite }>
-          <img
-            src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
-            alt="heart"
-            data-testid="favorite-btn"
-          />
-        </button>
+        <ShareButton
+          textToCopy={ currentURL }
+          setIsCopied={ setIsCopied }
+          isCopied={ isCopied }
+        />
+        <FavoriteButton
+          isFavorite={ isFavorite }
+          setIsFavorite={ setIsFavorite }
+          id={ id }
+          favoriteDependencies={ handleFavoriteDependencies }
+        />
       </div>
       <ul>
         {ingredientsList.map((ingredient, index) => (

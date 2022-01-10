@@ -63,6 +63,10 @@ body {
   color: black;
 }
 
+.selected_step {
+  text-decoration: line-through;
+}
+
 .favorite-image {
   width: 200px;
 }
