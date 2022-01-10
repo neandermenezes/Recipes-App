@@ -4,10 +4,12 @@ import { useHistory } from 'react-router';
 import { setRecipeProgress,
   getRecipeProgress,
   setFavoriteRecipes,
-  getFavoriteRecipes } from '../services/localStorage';
+  getFavoriteRecipes,
+  getDoneRecipes,
+  setDoneRecipes } from '../services/localStorage';
 import ShareButton from './ShareButton';
 import FavoriteButton from './FavoriteButton';
-import checkIngredientChange from '../helpers';
+import { checkIngredientChange, loadProgressPage } from '../helpers';
 
 function ProgressCard({
   photo,
@@ -20,6 +22,7 @@ function ProgressCard({
   id,
   area,
   alcoholic,
+  tags,
 }) {
   const history = useHistory();
   const [isCopied, setIsCopied] = useState(false);
@@ -38,12 +41,8 @@ function ProgressCard({
   useEffect(() => {
     const liSearch = document.querySelectorAll('li');
     const inputSearch = document.querySelectorAll('input');
-    if (getRecipeProgress()[type][id] && photo !== '') {
-      getRecipeProgress()[type][id].map((index) => {
-        inputSearch[index].defaultChecked = true;
-        return liSearch[index].classList.toggle('selected_step', true);
-      });
-    }
+    const parameters = [id, type, photo, liSearch, inputSearch];
+    loadProgressPage(parameters);
   }, [photo, id, type]);
 
   useEffect(() => {
@@ -77,6 +76,16 @@ function ProgressCard({
     name: title,
     image: photo };
 
+  const handleFinish = () => {
+    if (!getDoneRecipes()) {
+      setDoneRecipes([{ ...handleFavoriteDependencies, doneDate: new Date(), tags }]);
+    } else {
+      setDoneRecipes([...getDoneRecipes(),
+        { ...handleFavoriteDependencies, doneDate: new Date(), tags }]);
+    }
+    history.push('/receitas-feitas');
+  };
+
   return (
     <div>
       <img data-testid="recipe-photo" src={ photo } alt="meal info" />
@@ -108,7 +117,7 @@ function ProgressCard({
       <h2>Instructions</h2>
       <p data-testid="instructions">{instructions}</p>
       <button
-        onClick={ () => history.push('/receitas-feitas') }
+        onClick={ handleFinish }
         type="button"
         data-testid="finish-recipe-btn"
         disabled={ isDisabled }
@@ -130,6 +139,7 @@ ProgressCard.propTypes = {
   id: PropTypes.string,
   area: PropTypes.string,
   alcoholic: PropTypes.string,
+  tags: PropTypes.string,
 };
 
 ProgressCard.defaultProps = {
@@ -143,6 +153,7 @@ ProgressCard.defaultProps = {
   id: '',
   area: '',
   alcoholic: '',
+  tags: '',
 };
 
 export default ProgressCard;

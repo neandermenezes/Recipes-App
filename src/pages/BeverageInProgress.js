@@ -19,6 +19,7 @@ function BeverageInProgress(props) {
     strAlcoholic,
     strInstructions,
     strCategory,
+    strTags,
   } = recipeInfo;
 
   const ingredientsList = sliceIngredients(recipeInfo);
@@ -41,6 +42,7 @@ function BeverageInProgress(props) {
       type="cocktails"
       id={ id }
       area=""
+      tags={ strTags === null ? '' : strTags }
     />
   );
 }
