@@ -1,6 +1,6 @@
 import { getRecipeProgress, setRecipeProgress } from '../services/localStorage';
 
-function checkIngredientChange([checked, index, type, id, liSearch]) {
+export function checkIngredientChange([checked, index, type, id, liSearch]) {
   const recipesInProgressStorage = getRecipeProgress();
   liSearch.classList.toggle('selected_step', checked);
 
@@ -21,4 +21,11 @@ function checkIngredientChange([checked, index, type, id, liSearch]) {
   return setRecipeProgress(result);
 }
 
-export default checkIngredientChange;
+export function loadProgressPage([liSearch, inputSearch, type, id, photo]) {
+  if (getRecipeProgress()[type][id] && photo !== '') {
+    getRecipeProgress()[type][id].map((index) => {
+      inputSearch[index].defaultChecked = true;
+      return liSearch[index].classList.toggle('selected_step', true);
+    });
+  }
+}
