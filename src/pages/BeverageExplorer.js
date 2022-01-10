@@ -13,24 +13,28 @@ function BeverageExplorer() {
     history.push(`/bebidas/${id}`);
   };
   return (
-    <>
+    <div className="page-container">
       <Header name="Explorar Bebidas" />
-      <button
-        data-testid="explore-by-ingredient"
-        type="button"
-        onClick={ () => history.push('/explorar/bebidas/ingredientes') }
-      >
-        Por Ingredientes
-      </button>
-      <button
-        data-testid="explore-surprise"
-        type="button"
-        onClick={ handleSurprise }
-      >
-        Me Surpreenda!
-      </button>
+      <div className="explore">
+        <button
+          className="explore__btn"
+          data-testid="explore-by-ingredient"
+          type="button"
+          onClick={ () => history.push('/explorar/bebidas/ingredientes') }
+        >
+          Por Ingredientes
+        </button>
+        <button
+          className="explore__btn"
+          data-testid="explore-surprise"
+          type="button"
+          onClick={ handleSurprise }
+        >
+          Me Surpreenda!
+        </button>
+      </div>
       <Footer />
-    </>
+    </div>
   );
 }
 

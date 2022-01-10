@@ -13,6 +13,7 @@ import {
   getFavoriteRecipes,
   setFavoriteRecipes,
 } from '../services/localStorage';
+import '../css/RecipeDetails.css';
 
 const copy = require('clipboard-copy');
 
@@ -83,6 +84,7 @@ function FoodDetails(props) {
   };
 
   const handleFavorite = () => {
+    console.log('oi');
     if (!isFavorite) {
       const newFavorite = {
         id,
@@ -105,45 +107,77 @@ function FoodDetails(props) {
   };
 
   return (
-    <div>
-      <div>
-        <img src={ strMealThumb } alt="food" data-testid="recipe-photo" />
-        <h1 data-testid="recipe-title">{strMeal}</h1>
-        <h2 data-testid="recipe-category">{strCategory}</h2>
-        <div>
-          <button type="button" data-testid="share-btn" onClick={ handleShare }>
-            <img src={ shareIcon } alt="share" />
+    <div className="page-container">
+      <img
+        className="details__image"
+        src={ strMealThumb }
+        alt="food"
+        data-testid="recipe-photo"
+      />
+      <div className="title-container">
+        <div className="titles">
+          <h2 className="details__category" data-testid="recipe-category">
+            {strCategory}
+          </h2>
+          <h1 className="details__title" data-testid="recipe-title">
+            {strMeal}
+          </h1>
+        </div>
+        <div className="details">
+          <button
+            className="details__share"
+            type="button"
+            data-testid="share-btn"
+            onClick={ handleShare }
+          >
+            <img className="details__icon" src={ shareIcon } alt="share" />
           </button>
           {isCopied && <p>Link copiado!</p>}
+          <button
+            className="details__favorite"
+            type="button"
+            onClick={ handleFavorite }
+          >
+            <img
+              className="details__icon"
+              src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+              alt="heart"
+              data-testid="favorite-btn"
+            />
+          </button>
         </div>
-        <button type="button" onClick={ handleFavorite }>
-          <img
-            src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
-            alt="heart"
-            data-testid="favorite-btn"
-          />
-        </button>
       </div>
-      <ul>
+      <p className="details__description margin-left">Ingredientes:</p>
+      <ul className="ingredient-list">
         {ingredientsList.map((ingredient, index) => (
           <li
+            className="details__ingredient"
             key={ ingredient }
             data-testid={ `${index}-ingredient-name-and-measure` }
           >
-            {`${ingredient} ${measuresList[index] ? measuresList[index] : ''}`}
+            <span className="details__ingredient-name">{`${ingredient}: `}</span>
+            {measuresList[index] ? (
+              <span className="details__measure">{measuresList[index]}</span>
+            ) : (
+              ''
+            )}
           </li>
         ))}
       </ul>
-      <p data-testid="instructions">{strInstructions}</p>
+      <p className="details__description--instructions">Instruções:</p>
+      <p className="details__instructions" data-testid="instructions">
+        {strInstructions}
+      </p>
       <iframe
-        width="420"
+        className="details__video"
+        width="360"
         height="315"
         src={ `https://youtube.com/embed/${url}` }
         title={ strMeal }
         data-testid="video"
       />
       <div className="recomended">
-        <h2>Recomendadas</h2>
+        <p className="details__description center-this">Ótimos acompanhamentos:</p>
         <div className="carousel">
           {renderRecomendations
             && renderRecomendations.map((beverage, index) => (
@@ -160,7 +194,7 @@ function FoodDetails(props) {
         </div>
       </div>
       <button
-        className="start-recipe-btn"
+        className="login__btn start-recipe"
         type="button"
         onClick={ () => history.push(`/comidas/${id}/in-progress`) }
         // disabled (se a receita já foi feita)

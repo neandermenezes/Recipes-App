@@ -24,7 +24,10 @@ function Header({ name, search = false }) {
             alt=""
           />
         </button>
-        <h2 className="header__title" data-testid="page-title">
+        <h2
+          className={ search ? 'header__title' : 'header__title--marker' }
+          data-testid="page-title"
+        >
           {name}
         </h2>
         {search && (

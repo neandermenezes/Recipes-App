@@ -1,0 +1,28 @@
+.footer {
+  align-items: center;
+  backdrop-filter: blur(5px);
+  bottom: 0;
+  display: flex;
+  justify-content: space-evenly;
+  padding: 4px 0;
+  position: fixed;
+  width: 100%;
+}
+
+.footer__btn {
+  background-color: var(--white-primary);
+  border: none;
+  border-radius: 100px;
+  display: flex;
+  padding: 5px;
+}
+
+.footer__btn:focus {
+  outline: none;
+}
+
+.footer__icon {
+  align-self: center;
+  height: 1.5rem;
+  width: 1.5rem;
+}

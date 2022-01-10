@@ -1,12 +1,10 @@
 .header {
   align-items: center;
-  border-bottom: 1px solid rgb(233, 147, 66);
-  border-radius: 2px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   margin: 0 1rem 1rem;
-  padding: 0.5rem 0;
+  padding: 10px 0 5px;
 }
 
 .header__main {
@@ -18,7 +16,23 @@
 
 .header__title {
   color: var(--white-primary);
+  font-size: 1.2rem;
   margin: 0;
+}
+
+.header__title--marker {
+  color: var(--white-primary);
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.header__title--marker:before {
+  background-color: var(--green-primary);
+  content: '';
+  display: inline-block;
+  height: 17px;
+  margin-right: 2px;
+  width: 7px;
 }
 
 .header__btn {
@@ -27,7 +41,7 @@
   border-radius: 50%;
   cursor: pointer;
   display: flex;
-  padding: 10px;
+  padding: 5px;
 }
 
 .header__btn:focus {
@@ -35,16 +49,16 @@
 }
 
 .header__btn-active {
-  background-color: var(--orange-darker);
+  background-color: var(--orange-primary);
   border: 2px solid var(--white-primary);
   border-radius: 50%;
   cursor: pointer;
   display: flex;
-  padding: 10px;
+  padding: 5px;
 }
 
 .header__btn-active:focus {
-  background-color: var(--orange-darker);
+  background-color: var(--orange-primary);
   outline: none;
 }
 

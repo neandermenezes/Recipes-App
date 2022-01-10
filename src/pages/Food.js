@@ -5,6 +5,7 @@ import RecipesContext from '../context/RecipesContext';
 import Card from '../components/Card';
 import { requestFoodsOrDrinks } from '../services/fetchAPIs';
 import FilterButtons from '../components/FilterButtons';
+import '../css/MainPage.css';
 
 const MAX_MAP_LENGTH = 12;
 
@@ -27,17 +28,19 @@ function Food() {
     <div className="page-container">
       <Header name="Comidas" search />
       <FilterButtons url="themealdb" type="meals" />
-      { renderFoods && renderFoods.map((food, index) => (
-        <Card
-          id="idMeal"
-          itemId={ food.idMeal }
-          header={ food.strMeal }
-          img={ food.strMealThumb }
-          index={ index }
-          key={ food.idMeal }
-          testId={ `${index}-recipe-card` }
-        />
-      )) }
+      <main className="recipes">
+        { renderFoods && renderFoods.map((food, index) => (
+          <Card
+            id="idMeal"
+            itemId={ food.idMeal }
+            header={ food.strMeal }
+            img={ food.strMealThumb }
+            index={ index }
+            key={ food.idMeal }
+            testId={ `${index}-recipe-card` }
+          />
+        )) }
+      </main>
       <Footer />
     </div>
   );

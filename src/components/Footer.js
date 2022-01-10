@@ -3,6 +3,7 @@ import { useHistory } from 'react-router';
 import drinkIcon from '../images/drinkIcon.svg';
 import exploreIcon from '../images/exploreIcon.svg';
 import mealIcon from '../images/mealIcon.svg';
+import '../css/Footer.css';
 
 function Footer() {
   const history = useHistory();
@@ -10,6 +11,7 @@ function Footer() {
   return (
     <footer data-testid="footer" className="footer">
       <button
+        className="footer__btn"
         src={ drinkIcon }
         onClick={ () => history.push('/bebidas') }
         type="button"
@@ -18,6 +20,7 @@ function Footer() {
         <img className="footer__icon" src={ drinkIcon } alt="drinks icon" />
       </button>
       <button
+        className="footer__btn"
         src={ exploreIcon }
         onClick={ () => history.push('/explorar') }
         type="button"
@@ -26,6 +29,7 @@ function Footer() {
         <img className="footer__icon" src={ exploreIcon } alt="explore icon" />
       </button>
       <button
+        className="footer__btn"
         src={ mealIcon }
         onClick={ () => history.push('/comidas') }
         type="button"
