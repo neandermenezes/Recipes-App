@@ -14,7 +14,7 @@ function FoodExplorer() {
   };
 
   return (
-    <div className="page-container">
+    <div className="page-container-gradient">
       <Header name="Explorar Comidas" />
       <div className="explore">
         <button

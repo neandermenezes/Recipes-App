@@ -7,7 +7,7 @@ import '../css/Explore.css';
 function Explorer() {
   const history = useHistory();
   return (
-    <div className="page-container">
+    <div className="page-container-gradient">
       <Header name="Explorar" />
       <div className="explore">
         <button

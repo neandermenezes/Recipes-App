@@ -130,17 +130,24 @@ function ProgressCard({
             key={ item }
             data-testid={ `${index}-ingredient-step` }
           >
-            {/* {`${item} - ${measures[index]}`} */}
+            <input
+              className="ingredient__checkbox"
+              onChange={ (e) => handleCheck(e, index) }
+              type="checkbox"
+            />
             <span className="details__ingredient-name">{`${item}: `}</span>
             <span className="details__measure">{measures[index]}</span>
-            <input onChange={ (e) => handleCheck(e, index) } type="checkbox" />
           </li>
         ))}
       </ul>
       <p className="details__description--instructions">Instruções:</p>
-      <p className="details__instructions" data-testid="instructions">{instructions}</p>
+      <p className="details__instructions" data-testid="instructions">
+        {instructions}
+      </p>
       <button
-        className={ isDisabled ? 'login__btn disabled' : 'login__btn start-recipe' }
+        className={
+          isDisabled ? 'login__btn disabled' : 'login__btn start-recipe'
+        }
         onClick={ handleFinish }
         type="button"
         data-testid="finish-recipe-btn"

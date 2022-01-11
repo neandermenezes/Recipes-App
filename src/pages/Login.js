@@ -31,7 +31,7 @@ function Login({ history }) {
 
   return (
     <div className="login-container">
-      <h1 className="login__header">RECIPES APP</h1>
+      <h1 className="login__header">Trybe Foods</h1>
       <div className="text-container">
         <p className="login__text">Bem vindo!</p>
         <p className="login__text--sub">Sentimos sua falta!</p>

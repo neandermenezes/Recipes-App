@@ -1,6 +1,6 @@
 .login-container {
   align-items: center;
-  background-image: linear-gradient(to right bottom, #1212128c, #121212e6) , url('../images/background.jpeg');
+  background-image: linear-gradient(to right bottom, #1212128c, #121212e6) , url('../images/slanted-gradient\ \(1\).svg');
   background-position: center;
   background-size: cover;
   display: flex;
@@ -12,17 +12,21 @@
   align-items: center;
   display: flex;
   flex-direction: column;
-  margin: 1rem 1rem 5rem;
+  position: absolute;
+  top: 22%;
 }
 
 .login__header {
-  background-color: rgba(233, 147, 66, 0.85);
-  color: var(--white-primary);
+  color: var(--orange-primary);
   display: block;
-  font-size: 1.5rem;
+  font-family: Pacifico , cursive;
+  font-size: 2rem;
   font-weight: 400;
+  height: 100%;
   letter-spacing: -2px;
+  margin-top: 25px;
   text-align: center;
+  text-shadow: 0 0 50px rgb(235, 94, 94) , 0 0 5px rgb(235, 94, 94);
   width: 100%;
   word-spacing: 5px;
 }
@@ -44,6 +48,9 @@
   align-items: center;
   display: flex;
   flex-direction: column;
+  position: absolute;
+  top: 40%;
+  width: 70%;
 }
 
 .login__input {

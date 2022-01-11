@@ -10,11 +10,12 @@
 }
 
 .footer__btn {
-  background-color: var(--white-primary);
+  background-color: transparent;
   border: none;
   border-radius: 100px;
   display: flex;
   padding: 5px;
+  z-index: -1;
 }
 
 .footer__btn:focus {
@@ -23,6 +24,12 @@
 
 .footer__icon {
   align-self: center;
-  height: 1.5rem;
-  width: 1.5rem;
+  filter: invert(1);
+  height: 1.3rem;
+  width: 1.3rem;
+}
+
+.selected {
+  background-color: orange;
+  border-radius: 0.1px;
 }

@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
+import '../css/ConcludedRecipes.css';
 
-function ConcludedCard({ type,
+function ConcludedCard({
+  type,
   mainIndex,
   id,
   topText,
@@ -12,7 +14,8 @@ function ConcludedCard({ type,
   name,
   image,
   doneDate,
-  tags }) {
+  tags,
+}) {
   const [arrayTags, setArrayTags] = useState([]);
   useEffect(() => {
     if (tags) {
@@ -21,44 +24,57 @@ function ConcludedCard({ type,
     }
   }, [tags]);
   return (
-    <>
+    <div className="recipe-container">
       <Link to={ `/${type}/${id}` }>
         <img
+          className="favorites__img"
           data-testid={ `${mainIndex}-horizontal-image` }
           src={ image }
           alt={ name }
-          className="favorite-image"
         />
-        <h3 data-testid={ `${mainIndex}-horizontal-name` }>
-          { name }
-        </h3>
       </Link>
-      <h4 data-testid={ `${mainIndex}-horizontal-top-text` }>
-        { topText }
-      </h4>
-      <p data-testid={ `${mainIndex}-horizontal-done-date` }>{ doneDate }</p>
-      <button
-        type="button"
-        onClick={ handleShare }
-      >
-        <img
-          src={ shareIcon }
-          alt="share"
-          id={ `${type}/${id}` }
-          data-testid={ `${mainIndex}-horizontal-share-btn` }
-        />
-      </button>
-      {isCopied && <p>Link copiado!</p>}
-      <ul>
+      <div className="text">
+        <h3
+          className="favorites__title"
+          data-testid={ `${mainIndex}-horizontal-name` }
+        >
+          {name}
+        </h3>
+        <h4
+          className="favorites__category"
+          data-testid={ `${mainIndex}-horizontal-top-text` }
+        >
+          {topText}
+        </h4>
+        <p
+          className="favorites__date"
+          data-testid={ `${mainIndex}-horizontal-done-date` }
+        >
+          {doneDate}
+        </p>
+        <button className="favorites__btn" type="button" onClick={ handleShare }>
+          <img
+            className="favorites__icon"
+            src={ shareIcon }
+            alt="share"
+            id={ `${type}/${id}` }
+            data-testid={ `${mainIndex}-horizontal-share-btn` }
+          />
+        </button>
+        {isCopied && <p className="link-favorite">Link copiado!</p>}
+      </div>
+      <ul className="tag-container">
         {arrayTags.map((tag) => (
           <li
+            className="favorites__tag"
             key={ tag }
             data-testid={ `${mainIndex}-${tag}-horizontal-tag` }
           >
             {tag}
-          </li>))}
+          </li>
+        ))}
       </ul>
-    </>
+    </div>
   );
 }
 

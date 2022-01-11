@@ -47,6 +47,7 @@
   font-weight: 600;
   margin-bottom: 5px;
   padding: 2px 5px;
+  white-space: nowrap;
 }
 
 .filters__btn:focus {
@@ -62,6 +63,7 @@
   font-weight: 600;
   margin-bottom: 5px;
   padding: 2px 5px;
+  white-space: nowrap;
 }
 
 .selected:focus {

@@ -15,17 +15,19 @@ function FoodExplorerByIngredients() {
   }, []);
 
   return (
-    <div>
+    <div className="page-container">
       <Header name="Explorar Ingredientes" />
-      {ingredients.length > 0 && ingredients.map((ingredient, index) => (
-        <IngredientCard
-          key={ ingredient }
-          ingredient={ ingredient }
-          type="comidas"
-          img={ `https://www.themealdb.com/images/ingredients/${ingredient}-Small.png` }
-          index={ index }
-        />
-      ))}
+      <div className="recipes">
+        {ingredients.length > 0 && ingredients.map((ingredient, index) => (
+          <IngredientCard
+            key={ ingredient }
+            ingredient={ ingredient }
+            type="comidas"
+            img={ `https://www.themealdb.com/images/ingredients/${ingredient}-Small.png` }
+            index={ index }
+          />
+        ))}
+      </div>
       <Footer />
     </div>
   );

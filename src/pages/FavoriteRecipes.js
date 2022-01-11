@@ -6,6 +6,7 @@ import FavoriteCard from '../components/FavoriteCard';
 const copy = require('clipboard-copy');
 
 function FavoriteRecipes() {
+  const [selectedCategory, setSelectedCategory] = useState('All');
   const [favorites, setFavorites] = useState([]);
   const [isCopied, setIsCopied] = useState(false);
   const [filteredRecipes, setFilteredRecipes] = useState([]);
@@ -33,20 +34,23 @@ function FavoriteRecipes() {
   };
 
   const handleFilter = ({ target: { id } }) => {
+    setSelectedCategory(id);
     const type = id === 'Food' ? 'comida' : 'bebida';
     const filterFavorites = favorites.filter((recipe) => recipe.type === type);
     setFilteredRecipes(filterFavorites);
   };
 
   const handleAll = () => {
+    setSelectedCategory('All');
     setFilteredRecipes([]);
   };
 
   return (
-    <div>
+    <div className="page-container">
       <Header name="Receitas Favoritas" />
-      <div>
+      <div className="filters">
         <button
+          className={ selectedCategory === 'All' ? 'selected' : 'filters__btn' }
           id="All"
           type="button"
           data-testid="filter-by-all-btn"
@@ -55,6 +59,7 @@ function FavoriteRecipes() {
           All
         </button>
         <button
+          className={ selectedCategory === 'Food' ? 'selected' : 'filters__btn' }
           id="Food"
           type="button"
           data-testid="filter-by-food-btn"
@@ -63,6 +68,7 @@ function FavoriteRecipes() {
           Food
         </button>
         <button
+          className={ selectedCategory === 'Drink' ? 'selected' : 'filters__btn' }
           id="Drink"
           type="button"
           data-testid="filter-by-drink-btn"
@@ -71,36 +77,39 @@ function FavoriteRecipes() {
           Drink
         </button>
       </div>
-      { renderFavorites && renderFavorites.map((recipe, index) => {
-        if (recipe.type === 'comida') {
+      <ul className="recipe-list">
+        { renderFavorites && renderFavorites.map((recipe, index) => {
+          if (recipe.type === 'comida') {
+            return (
+              <li key={ recipe.name }>
+                <FavoriteCard
+                  type="comidas"
+                  recipe={ recipe }
+                  index={ index }
+                  topText={ `${recipe.area} - ${recipe.category}` }
+                  handleFavorite={ handleFavorite }
+                  handleShare={ handleShare }
+                  isCopied={ isCopied }
+                />
+              </li>
+            );
+          }
           return (
-            <div key={ recipe.name }>
+            <li key={ recipe.name }>
               <FavoriteCard
-                type="comidas"
+                type="bebidas"
                 recipe={ recipe }
                 index={ index }
-                topText={ `${recipe.area} - ${recipe.category}` }
+                topText={ recipe.alcoholicOrNot }
                 handleFavorite={ handleFavorite }
                 handleShare={ handleShare }
                 isCopied={ isCopied }
               />
-            </div>
+            </li>
           );
-        }
-        return (
-          <div key={ recipe.name }>
-            <FavoriteCard
-              type="bebidas"
-              recipe={ recipe }
-              index={ index }
-              topText={ recipe.alcoholicOrNot }
-              handleFavorite={ handleFavorite }
-              handleShare={ handleShare }
-              isCopied={ isCopied }
-            />
-          </div>
-        );
-      }) }
+        }) }
+      </ul>
+
     </div>
   );
 }

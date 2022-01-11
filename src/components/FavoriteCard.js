@@ -5,29 +5,42 @@ import blackHeartIcon from '../images/blackHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
 
 function FavoriteCard({
-  type, recipe, handleFavorite, handleShare, index, topText, isCopied }) {
+  type,
+  recipe,
+  handleFavorite,
+  handleShare,
+  index,
+  topText,
+  isCopied,
+}) {
   return (
-    <>
+    <div className="recipe-container">
       <Link to={ `/${type}/${recipe.id}` }>
         <img
+          className="favorites__img"
           data-testid={ `${index}-horizontal-image` }
           src={ recipe.image }
           alt={ recipe.name }
-          className="favorite-image"
         />
-        <h3 data-testid={ `${index}-horizontal-name` }>
-          { recipe.name }
-        </h3>
       </Link>
-      <h4 data-testid={ `${index}-horizontal-top-text` }>
-        { topText }
-      </h4>
-      <div>
-        <button
-          type="button"
-          onClick={ handleShare }
+      <div className="text align-favorite">
+        <h3
+          className="favorites__title"
+          data-testid={ `${index}-horizontal-name` }
         >
+          {recipe.name}
+        </h3>
+        <h4
+          className="favorites__category"
+          data-testid={ `${index}-horizontal-top-text` }
+        >
+          {topText}
+        </h4>
+      </div>
+      <div className="details__btns position-favorite">
+        <button className="details__share" type="button" onClick={ handleShare }>
           <img
+            className="details__icon"
             src={ shareIcon }
             alt="share"
             id={ `${type}/${recipe.id}` }
@@ -35,8 +48,9 @@ function FavoriteCard({
           />
         </button>
         {isCopied && <p>Link copiado!</p>}
-        <button type="button" onClick={ handleFavorite }>
+        <button className="details__favorite" type="button" onClick={ handleFavorite }>
           <img
+            className="details__icon"
             src={ blackHeartIcon }
             alt="heart"
             data-testid={ `${index}-horizontal-favorite-btn` }
@@ -44,7 +58,7 @@ function FavoriteCard({
           />
         </button>
       </div>
-    </>
+    </div>
   );
 }
 

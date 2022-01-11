@@ -13,7 +13,7 @@ function BeverageExplorer() {
     history.push(`/bebidas/${id}`);
   };
   return (
-    <div className="page-container">
+    <div className="page-container-gradient">
       <Header name="Explorar Bebidas" />
       <div className="explore">
         <button

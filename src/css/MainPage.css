@@ -55,7 +55,7 @@
 
 .recipe-card__redirect {
   align-self: flex-end;
-  bottom: 12px;
+  bottom: 30%;
   color: var(--white-primary);
   font-size: 0.65rem;
   left: 13%;
