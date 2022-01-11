@@ -8,7 +8,10 @@ function Footer() {
   const history = useHistory();
 
   return (
-    <footer data-testid="footer" className="footer">
+    <footer
+      data-testid="footer"
+      className="footer">
+      style={ { position: 'fixed', bottom: 0 } }
       <button
         src={ drinkIcon }
         onClick={ () => history.push('/bebidas') }
