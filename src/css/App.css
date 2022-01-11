@@ -62,8 +62,6 @@ body {
 
 .selected_step {
   text-decoration: line-through;
-  text-decoration-color: var(--red-primary);
-  text-decoration-thickness: 2px;
 }
 
 .favorite-image {

@@ -157,10 +157,11 @@
   align-items: flex-end;
   display: flex;
   flex-wrap: nowrap;
-  gap: 50px;
   height: 270px;
   margin: 0 1rem;
+  margin-right: 50px;
   overflow-x: scroll;
+  overflow-y: hidden;
 }
 
 .center-this {
@@ -193,7 +194,7 @@
   border-radius: 0.1px;
   bottom: 0;
   position: fixed;
-  width: 100%;
+  width: 90%;
 }
 
 .disabled:hover {
