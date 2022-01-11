@@ -83,6 +83,14 @@ export async function requestRecipesById(id, urlByCategory) {
   return result;
 }
 
+export async function requestIngredients(urlByCategory) {
+  const response = await fetch(
+    `https://www.${urlByCategory}.com/api/json/v1/1/list.php?i=list`,
+  );
+  const result = response.json();
+  return result;
+}
+
 export async function requestAreas() {
   const response = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?a=list');
   const result = await response.json();

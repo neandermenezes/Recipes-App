@@ -1,21 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router';
 import {
   requestFoodsOrDrinks,
   requestRecipesById,
 } from '../services/fetchAPIs';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
-import shareIcon from '../images/shareIcon.svg';
 import Card from '../components/Card';
 import {
   getFavoriteRecipes,
   setFavoriteRecipes,
+  getDoneRecipes,
+  getRecipeProgress,
 } from '../services/localStorage';
 import '../css/RecipeDetails.css';
+import RecipesContext from '../context/RecipesContext';
+import ShareButton from '../components/ShareButton';
+import FavoriteButton from '../components/FavoriteButton';
 
-const copy = require('clipboard-copy');
+// const copy = require('clipboard-copy');
 
 const currentURL = window.location.href;
 
@@ -38,13 +40,32 @@ function FoodDetails(props) {
     strYoutube,
     strArea,
   } = recipeInfo;
+  const [isDone, setIsDone] = useState(false);
+  const [isInProgress, setIsInProgressDone] = useState(false);
   const [renderRecomendations, setRecomendations] = useState([]);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
+  const { sliceIngredients, sliceMeasures } = useContext(RecipesContext);
+
+  useEffect(() => {
+    if (getDoneRecipes()) {
+      const currentRecipeIsDone = getDoneRecipes().find((recipe) => recipe.id === id);
+      return setIsDone(currentRecipeIsDone);
+    }
+    return setIsDone(false);
+  }, [id]);
+
+  useEffect(() => {
+    if (getRecipeProgress()) {
+      const currentRecipeIsInProgress = !!getRecipeProgress().meals[id];
+      return setIsInProgressDone(currentRecipeIsInProgress);
+    }
+    return setIsInProgressDone(false);
+  }, [id]);
 
   useEffect(() => {
     requestRecipesById(id, 'themealdb').then(({ meals }) => setRecipeInfo(meals[0]));
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     requestFoodsOrDrinks('thecocktaildb')
@@ -58,53 +79,49 @@ function FoodDetails(props) {
       );
     }
     setFavoriteRecipes([]);
-  }, []);
+  }, [id]);
 
-  const ingredientsList = Object.entries(recipeInfo)
-    .filter(
-      (ingredients) => ingredients[0].includes('strIngredient')
-        && ingredients[1] !== null
-        && ingredients[1] !== '',
-    )
-    .map((item) => item[1]);
-
-  const measuresList = Object.entries(recipeInfo)
-    .filter(
-      (measure) => measure[0].includes('strMeasure')
-        && measure[1] !== null
-        && measure[1] !== '',
-    )
-    .map((item) => item[1]);
+  const ingredientsList = sliceIngredients(recipeInfo);
+  const measuresList = sliceMeasures(recipeInfo);
 
   const url = strYoutube ? strYoutube.split('=')[1] : strYoutube;
 
-  const handleShare = async () => {
-    await copy(currentURL);
-    setIsCopied(true);
+  // const handleShare = async () => {
+  //   await copy(currentURL);
+  //   setIsCopied(true);
+  // };
+
+  const handleFavoriteDependencies = {
+    id,
+    type: 'comida',
+    area: strArea,
+    category: strCategory,
+    alcoholicOrNot: '',
+    name: strMeal,
+    image: strMealThumb,
   };
 
-  const handleFavorite = () => {
-    console.log('oi');
-    if (!isFavorite) {
-      const newFavorite = {
-        id,
-        type: 'comida',
-        area: strArea,
-        category: strCategory,
-        alcoholicOrNot: '',
-        name: strMeal,
-        image: strMealThumb,
-      };
-      setFavoriteRecipes([...getFavoriteRecipes(), newFavorite]);
-      return setIsFavorite(!isFavorite);
-    }
+  // const handleFavorite = () => {
+  //   if (!isFavorite) {
+  //     const newFavorite = {
+  //       id,
+  //       type: 'comida',
+  //       area: strArea,
+  //       category: strCategory,
+  //       alcoholicOrNot: '',
+  //       name: strMeal,
+  //       image: strMealThumb,
+  //     };
+  //     setFavoriteRecipes([...getFavoriteRecipes(), newFavorite]);
+  //     return setIsFavorite(!isFavorite);
+  //   }
 
-    const deleteFavorite = getFavoriteRecipes().filter(
-      (recipe) => recipe.id !== id,
-    );
-    setFavoriteRecipes(deleteFavorite);
-    return setIsFavorite(!isFavorite);
-  };
+  //   const deleteFavorite = getFavoriteRecipes().filter(
+  //     (recipe) => recipe.id !== id,
+  //   );
+  //   setFavoriteRecipes(deleteFavorite);
+  //   return setIsFavorite(!isFavorite);
+  // };
 
   return (
     <div className="page-container">
@@ -124,29 +141,19 @@ function FoodDetails(props) {
           </h1>
         </div>
         <div className="details">
-          <button
-            className="details__share"
-            type="button"
-            data-testid="share-btn"
-            onClick={ handleShare }
-          >
-            <img className="details__icon" src={ shareIcon } alt="share" />
-          </button>
-          <button
-            className="details__favorite"
-            type="button"
-            onClick={ handleFavorite }
-          >
-            <img
-              className="details__icon"
-              src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
-              alt="heart"
-              data-testid="favorite-btn"
-            />
-          </button>
+          <ShareButton
+            textToCopy={ currentURL }
+            setIsCopied={ setIsCopied }
+            isCopied={ isCopied }
+          />
+          <FavoriteButton
+            isFavorite={ isFavorite }
+            setIsFavorite={ setIsFavorite }
+            id={ id }
+            favoriteDependencies={ handleFavoriteDependencies }
+          />
         </div>
       </div>
-      {isCopied && <p className="link margin-left">Link copiado!</p>}
       <p className="details__description margin-left">Ingredientes:</p>
       <ul className="ingredient-list">
         {ingredientsList.map((ingredient, index) => (
@@ -194,14 +201,12 @@ function FoodDetails(props) {
         </div>
       </div>
       <button
-        className="login__btn start-recipe"
+        className={ isDone ? 'hidden-start-recipe-btn' : 'login__btn start-recipe' }
         type="button"
         onClick={ () => history.push(`/comidas/${id}/in-progress`) }
-        // disabled (se a receita já foi feita)
         data-testid="start-recipe-btn"
       >
-        Iniciar Receita
-        {/* ou texto continuar receita caso ela esteja em progresso */}
+        {isInProgress ? 'Continuar Receita' : 'Iniciar Receita' }
       </button>
     </div>
   );

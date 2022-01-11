@@ -1,12 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import {
-  requestCategories,
-  requestRecipesByCategory,
-} from '../services/fetchAPIs';
 import RecipesContext from '../context/RecipesContext';
 import '../css/FilterButtons.css';
+import { requestCategories, requestRecipesByCategory } from '../services/fetchAPIs';
 
 const MAX_MAP_LENGTH = 5;
 
