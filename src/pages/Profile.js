@@ -16,12 +16,13 @@ function Profile() {
   };
 
   return (
-    <>
+    <div className="page-container-gradient">
       <Header name="Perfil" />
       <div className="profile">
-        <p data-testid="profile-email">{email}</p>
-        <div>
+        <p className="email" data-testid="profile-email">{email}</p>
+        <div className="explore">
           <button
+            className="explore__btn"
             onClick={ () => redirect('done-recipes') }
             type="button"
             data-testid="profile-done-btn"
@@ -29,6 +30,7 @@ function Profile() {
             Receitas Feitas
           </button>
           <button
+            className="explore__btn"
             onClick={ () => redirect('favorite-recipes') }
             type="button"
             data-testid="profile-favorite-btn"
@@ -36,6 +38,7 @@ function Profile() {
             Receitas Favoritas
           </button>
           <button
+            className="explore__btn"
             onClick={ () => redirect('login') }
             type="button"
             data-testid="profile-logout-btn"
@@ -45,7 +48,7 @@ function Profile() {
         </div>
       </div>
       <Footer />
-    </>
+    </div>
   );
 }
 

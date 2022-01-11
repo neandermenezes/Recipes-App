@@ -10,16 +10,17 @@ function ShareButton({ setIsCopied, textToCopy, isCopied }) {
     setIsCopied(true);
   };
   return (
-    <div>
+    <>
       <button
+        className="details__share"
         type="button"
         data-testid="share-btn"
         onClick={ () => handleShare(textToCopy) }
       >
-        <img src={ shareIcon } alt="share" />
+        <img className="details__icon" src={ shareIcon } alt="share" />
       </button>
-      {isCopied && <p>Link copiado!</p>}
-    </div>
+      {isCopied && <p className="link">Link copiado!</p>}
+    </>
   );
 }
 

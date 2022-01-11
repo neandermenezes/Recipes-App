@@ -6,6 +6,7 @@ import RecipesContext from '../context/RecipesContext';
 import { requestFoodsOrDrinks, requestFilteredDrinks } from '../services/fetchAPIs';
 import Card from '../components/Card';
 import FilterButtons from '../components/FilterButtons';
+import '../css/MainPage.css';
 
 const MAX_MAP_LENGTH = 12;
 
@@ -30,21 +31,23 @@ function Beverage({ location: { ingredient } }) {
   }, [filteredBeverage, beverages]);
 
   return (
-    <div>
+    <div className="page-container">
       <Header name="Bebidas" search />
       <FilterButtons url="thecocktaildb" type="drinks" />
-      { renderBeverage && renderBeverage.map((beverage, index) => (
-        <Card
-          id="idDrink"
-          itemId={ beverage.idDrink }
-          header={ beverage.strDrink }
-          img={ beverage.strDrinkThumb }
-          index={ index }
-          key={ beverage.idDrink }
-          testId={ `${index}-recipe-card` }
-        />
-      )) }
-      <Footer />
+      <main className="recipes">
+        { renderBeverage && renderBeverage.map((beverage, index) => (
+          <Card
+            id="idDrink"
+            itemId={ beverage.idDrink }
+            header={ beverage.strDrink }
+            img={ beverage.strDrinkThumb }
+            index={ index }
+            key={ beverage.idDrink }
+            testId={ `${index}-recipe-card` }
+          />
+        )) }
+        <Footer />
+      </main>
     </div>
   );
 }

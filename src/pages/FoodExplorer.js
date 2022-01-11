@@ -14,29 +14,34 @@ function FoodExplorer() {
   };
 
   return (
-    <div>
+    <div className="page-container-gradient">
       <Header name="Explorar Comidas" />
-      <button
-        data-testid="explore-by-ingredient"
-        type="button"
-        onClick={ () => history.push('/explorar/comidas/ingredientes') }
-      >
-        Por Ingredientes
-      </button>
-      <button
-        data-testid="explore-by-area"
-        type="button"
-        onClick={ () => history.push('/explorar/comidas/area') }
-      >
-        Por Local de Origem
-      </button>
-      <button
-        data-testid="explore-surprise"
-        type="button"
-        onClick={ handleSurprise }
-      >
-        Me Surpreenda!
-      </button>
+      <div className="explore">
+        <button
+          className="explore__btn"
+          data-testid="explore-by-ingredient"
+          type="button"
+          onClick={ () => history.push('/explorar/comidas/ingredientes') }
+        >
+          Por Ingredientes
+        </button>
+        <button
+          className="explore__btn"
+          data-testid="explore-by-area"
+          type="button"
+          onClick={ () => history.push('/explorar/comidas/area') }
+        >
+          Por Local de Origem
+        </button>
+        <button
+          className="explore__btn"
+          data-testid="explore-surprise"
+          type="button"
+          onClick={ handleSurprise }
+        >
+          Me Surpreenda!
+        </button>
+      </div>
       <Footer />
     </div>
   );

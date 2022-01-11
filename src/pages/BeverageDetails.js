@@ -1,10 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router';
-import {
-  requestFoodsOrDrinks,
-  requestRecipesById,
-} from '../services/fetchAPIs';
 import Card from '../components/Card';
 import {
   getDoneRecipes,
@@ -12,9 +8,11 @@ import {
   getRecipeProgress,
   setFavoriteRecipes,
 } from '../services/localStorage';
+import '../css/RecipeDetails.css';
 import RecipesContext from '../context/RecipesContext';
 import ShareButton from '../components/ShareButton';
 import FavoriteButton from '../components/FavoriteButton';
+import { requestFoodsOrDrinks, requestRecipesById } from '../services/fetchAPIs';
 
 const currentURL = window.location.href;
 
@@ -91,36 +89,59 @@ function BeverageDetails(props) {
   };
 
   return (
-    <div>
-      <div>
-        <img src={ strDrinkThumb } alt="food" data-testid="recipe-photo" />
-        <h1 data-testid="recipe-title">{strDrink}</h1>
-        <h2 data-testid="recipe-category">{strAlcoholic}</h2>
-        <ShareButton
-          textToCopy={ currentURL }
-          setIsCopied={ setIsCopied }
-          isCopied={ isCopied }
-        />
-        <FavoriteButton
-          isFavorite={ isFavorite }
-          setIsFavorite={ setIsFavorite }
-          id={ id }
-          favoriteDependencies={ handleFavoriteDependencies }
-        />
+    <div className="page-container">
+      <img
+        className="details__image"
+        src={ strDrinkThumb }
+        alt="food"
+        data-testid="recipe-photo"
+      />
+      <div className="title-container">
+        <div className="titles">
+          <h2 className="details__category" data-testid="recipe-category">
+            {strAlcoholic}
+          </h2>
+          <h1 className="details__title" data-testid="recipe-title">
+            {strDrink}
+          </h1>
+        </div>
+        <div className="details">
+          <ShareButton
+            textToCopy={ currentURL }
+            setIsCopied={ setIsCopied }
+            isCopied={ isCopied }
+          />
+          <FavoriteButton
+            isFavorite={ isFavorite }
+            setIsFavorite={ setIsFavorite }
+            id={ id }
+            favoriteDependencies={ handleFavoriteDependencies }
+          />
+        </div>
       </div>
-      <ul>
+      <p className="details__description margin-left">Ingredientes:</p>
+      <ul className="ingredient-list">
         {ingredientsList.map((ingredient, index) => (
           <li
+            className="details__ingredient"
             key={ ingredient }
             data-testid={ `${index}-ingredient-name-and-measure` }
           >
-            {`${ingredient} ${measuresList[index] ? measuresList[index] : ''}`}
+            <span className="details__ingredient-name">{`${ingredient}: `}</span>
+            {measuresList[index] ? (
+              <span className="details__measure">{measuresList[index]}</span>
+            ) : (
+              ''
+            )}
           </li>
         ))}
       </ul>
-      <p data-testid="instructions">{strInstructions}</p>
+      <p className="details__description--instructions">Instruções:</p>
+      <p className="details__instructions" data-testid="instructions">
+        {strInstructions}
+      </p>
       <div className="recomended">
-        <h2>Recomendadas</h2>
+        <p className="details__description center-this">Ótimos acompanhamentos:</p>
         <div className="carousel">
           {renderRecomendations
             && renderRecomendations.map((food, index) => (
@@ -137,7 +158,7 @@ function BeverageDetails(props) {
         </div>
       </div>
       <button
-        className={ isDone ? 'hidden-start-recipe-btn' : 'start-recipe-btn' }
+        className={ isDone ? 'hidden-start-recipe-btn' : 'login__btn start-recipe' }
         type="button"
         onClick={ () => history.push(`/bebidas/${id}/in-progress`) }
         data-testid="start-recipe-btn"

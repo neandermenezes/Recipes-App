@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import profileIcon from '../images/profileIcon.svg';
+import '../css/Login.css';
 
 const MIN_PASSWORD_LENGTH = 6;
 
@@ -15,12 +16,12 @@ function Login({ history }) {
   };
 
   useEffect(() => {
-    if (password.length > MIN_PASSWORD_LENGTH
-        && /\S+@\S+\.\S+/.test(email)) setButtonState(false);
-    else setButtonState(true);
+    if (password.length > MIN_PASSWORD_LENGTH && /\S+@\S+\.\S+/
+      .test(email)) { setButtonState(false); } else setButtonState(true);
   }, [email, password]);
 
-  const saveAndRedirect = () => {
+  const saveAndRedirect = (e) => {
+    e.preventDefault();
     const objEmail = { email };
     localStorage.setItem('mealsToken', '1');
     localStorage.setItem('cocktailsToken', '1');
@@ -29,39 +30,43 @@ function Login({ history }) {
   };
 
   return (
-    <form className="login">
-      <label htmlFor="email" className="login__label">
-        Email
+    <div className="login-container">
+      <h1 className="login__header">Trybe Foods</h1>
+      <div className="text-container">
+        <p className="login__text">Bem vindo!</p>
+        <p className="login__text--sub">Sentimos sua falta!</p>
+      </div>
+      <form onSubmit={ (e) => saveAndRedirect(e) } className="login__form">
         <input
+          placeholder="Email"
+          className="login__input"
           onChange={ handleChange }
           data-testid="email-input"
           id="email"
           type="email"
         />
-      </label>
-      <label htmlFor="email" className="login__label">
-        password
         <input
+          placeholder="Senha"
+          className="login__input"
           onChange={ handleChange }
           data-testid="password-input"
           id="password"
           type="password"
         />
-      </label>
-      <div>
         <button
+          className={ !buttonState ? 'login__btn' : 'login__btn-disabled' }
           disabled={ buttonState }
-          type="button"
-          onClick={ saveAndRedirect }
+          type="submit"
+          // onClick={ saveAndRedirect }
           data-testid="login-submit-btn"
         >
           Entrar
         </button>
-      </div>
-      <svg>
-        <use href={ `${profileIcon}` } />
-      </svg>
-    </form>
+        <svg>
+          <use href={ `${profileIcon}` } />
+        </svg>
+      </form>
+    </div>
   );
 }
 

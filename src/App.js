@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Route, Switch } from 'react-router';
 import Login from './pages/Login';
@@ -19,6 +18,8 @@ import Profile from './pages/Profile';
 import ConcludedRecipes from './pages/ConcludedRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 import NotFound from './components/NotFound';
+
+import './css/App.css';
 
 function App() {
   return (

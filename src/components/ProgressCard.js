@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router';
-import { setRecipeProgress,
+import {
+  setRecipeProgress,
   getRecipeProgress,
   setFavoriteRecipes,
   getFavoriteRecipes,
   getDoneRecipes,
-  setDoneRecipes } from '../services/localStorage';
+  setDoneRecipes,
+} from '../services/localStorage';
 import ShareButton from './ShareButton';
 import FavoriteButton from './FavoriteButton';
 import { checkIngredientChange, loadProgressPage } from '../helpers';
@@ -63,55 +65,89 @@ function ProgressCard({
     return handleFinishButton();
   };
 
-  const handleFavoriteDependencies = { id,
+  const handleFavoriteDependencies = {
+    id,
     type: type === 'meals' ? 'comida' : 'bebida',
     area,
     category,
     alcoholicOrNot: type === 'meals' ? '' : alcoholic,
     name: title,
-    image: photo };
+    image: photo,
+  };
 
   const handleFinish = () => {
     if (!getDoneRecipes()) {
-      setDoneRecipes([{ ...handleFavoriteDependencies, doneDate: new Date(), tags }]);
+      setDoneRecipes([
+        { ...handleFavoriteDependencies, doneDate: new Date(), tags },
+      ]);
     } else {
-      setDoneRecipes([...getDoneRecipes(),
-        { ...handleFavoriteDependencies, doneDate: new Date(), tags }]);
+      setDoneRecipes([
+        ...getDoneRecipes(),
+        { ...handleFavoriteDependencies, doneDate: new Date(), tags },
+      ]);
     }
     history.push('/receitas-feitas');
   };
 
   return (
-    <div>
-      <img data-testid="recipe-photo" src={ photo } alt="meal info" />
-      <ShareButton
-        textToCopy={ `http://localhost:3000/${type === 'meals' ? 'comidas' : 'bebidas'}/${id}` }
-        setIsCopied={ setIsCopied }
-        isCopied={ isCopied }
+    <div className="page-container">
+      <img
+        className="details__image"
+        data-testid="recipe-photo"
+        src={ photo }
+        alt="meal info"
       />
-      <FavoriteButton
-        isFavorite={ isFavorite }
-        setIsFavorite={ setIsFavorite }
-        id={ id }
-        favoriteDependencies={ handleFavoriteDependencies }
-      />
-      <h1 data-testid="recipe-title">{title}</h1>
-      <p data-testid="recipe-category">{type === 'meals' ? category : alcoholic}</p>
-      <h2>Ingredients</h2>
-      <ul>
+      <div className="title-container">
+        <div className="titles">
+          <p className="details__category" data-testid="recipe-category">
+            {type === 'meals' ? category : alcoholic}
+          </p>
+          <h1 className="details__title" data-testid="recipe-title">
+            {title}
+          </h1>
+        </div>
+        <div className="details">
+          <ShareButton
+            textToCopy={ `http://localhost:3000/${
+              type === 'meals' ? 'comidas' : 'bebidas'
+            }/${id}` }
+            setIsCopied={ setIsCopied }
+            isCopied={ isCopied }
+          />
+          <FavoriteButton
+            isFavorite={ isFavorite }
+            setIsFavorite={ setIsFavorite }
+            id={ id }
+            favoriteDependencies={ handleFavoriteDependencies }
+          />
+        </div>
+      </div>
+      <p className="details__description margin-left">Ingredientes:</p>
+      <ul className="ingredient-list">
         {ingredients.map((item, index) => (
-          <li key={ item } data-testid={ `${index}-ingredient-step` }>
-            {`${item} - ${measures[index]}`}
+          <li
+            className="details__ingredient"
+            key={ item }
+            data-testid={ `${index}-ingredient-step` }
+          >
             <input
+              className="ingredient__checkbox"
               onChange={ (e) => handleCheck(e, index) }
               type="checkbox"
             />
+            <span className="details__ingredient-name">{`${item}: `}</span>
+            <span className="details__measure">{measures[index]}</span>
           </li>
         ))}
       </ul>
-      <h2>Instructions</h2>
-      <p data-testid="instructions">{instructions}</p>
+      <p className="details__description--instructions">Instruções:</p>
+      <p className="details__instructions" data-testid="instructions">
+        {instructions}
+      </p>
       <button
+        className={
+          isDisabled ? 'login__btn disabled' : 'login__btn start-recipe'
+        }
         onClick={ handleFinish }
         type="button"
         data-testid="finish-recipe-btn"

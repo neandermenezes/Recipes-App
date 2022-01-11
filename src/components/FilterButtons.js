@@ -1,26 +1,26 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import {
-  requestCategories,
-  requestRecipesByCategory,
-} from '../services/fetchAPIs';
 import RecipesContext from '../context/RecipesContext';
+import '../css/FilterButtons.css';
+import { requestCategories, requestRecipesByCategory } from '../services/fetchAPIs';
 
 const MAX_MAP_LENGTH = 5;
 
 function FilterButtons({ url, type }) {
   const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState('');
-
+  const [selectedCategory, setSelectedCategory] = useState('All');
   const {
     location: { pathname },
   } = useHistory();
   const { setFilteredFood, setFilteredBeverage } = useContext(RecipesContext);
 
   const filterBeverage = async (id) => {
+    const btns = document.getElementById(selectedCategory);
+    console.log(selectedCategory);
+    console.log(btns);
     if (id === selectedCategory) {
-      setSelectedCategory('');
+      setSelectedCategory('All');
       return setFilteredBeverage([]);
     }
     const result = await requestRecipesByCategory(id, 'thecocktaildb');
@@ -30,7 +30,7 @@ function FilterButtons({ url, type }) {
 
   const filterFood = async (id) => {
     if (id === selectedCategory) {
-      setSelectedCategory('');
+      setSelectedCategory('All');
       return setFilteredFood([]);
     }
     const result = await requestRecipesByCategory(id, 'themealdb');
@@ -38,12 +38,13 @@ function FilterButtons({ url, type }) {
     return setSelectedCategory(id);
   };
 
-  const handleClick = ({ target: { id } }) => {
-    if (pathname === '/bebidas') return filterBeverage(id);
-    return filterFood(id);
+  const handleClick = ({ target }) => {
+    if (pathname === '/bebidas') return filterBeverage(target.id);
+    return filterFood(target.id);
   };
 
   const resetFilters = () => {
+    setSelectedCategory('All');
     if (pathname === '/bebidas') return setFilteredBeverage([]);
     return setFilteredFood([]);
   };
@@ -55,10 +56,21 @@ function FilterButtons({ url, type }) {
   const renderButtons = categories.slice(0, MAX_MAP_LENGTH);
 
   return (
-    <div>
-      {renderButtons
+    <>
+      <p className="description">Categories</p>
+      <div className="filters">
+        <button
+          className={ selectedCategory === 'All' ? 'selected' : 'filters__btn' }
+          data-testid="All-category-filter"
+          type="button"
+          onClick={ resetFilters }
+        >
+          All
+        </button>
+        {renderButtons
         && renderButtons.map(({ strCategory }) => (
           <button
+            className={ selectedCategory === strCategory ? 'selected' : 'filters__btn' }
             key={ strCategory }
             type="button"
             data-testid={ `${strCategory}-category-filter` }
@@ -68,14 +80,8 @@ function FilterButtons({ url, type }) {
             {strCategory}
           </button>
         ))}
-      <button
-        data-testid="All-category-filter"
-        type="button"
-        onClick={ resetFilters }
-      >
-        All
-      </button>
-    </div>
+      </div>
+    </>
   );
 }
 

@@ -20,15 +20,14 @@ function FavoriteButton({ isFavorite, setIsFavorite, id, favoriteDependencies })
     return setIsFavorite(!isFavorite);
   };
   return (
-    <div>
-      <button type="button" onClick={ handleFavorite }>
-        <img
-          src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
-          alt="heart"
-          data-testid="favorite-btn"
-        />
-      </button>
-    </div>
+    <button className="details__favorite" type="button" onClick={ handleFavorite }>
+      <img
+        className="details__icon"
+        src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+        alt="heart"
+        data-testid="favorite-btn"
+      />
+    </button>
   );
 }
 

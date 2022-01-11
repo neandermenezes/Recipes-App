@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-import { requestIngredients } from '../services/fetchAPIs';
 import IngredientCard from '../components/IngredientCard';
+import { requestIngredients } from '../services/fetchAPIs';
 
 const NUMBER_OF_INGREDIENTS = 12;
 
@@ -15,17 +15,19 @@ function FoodExplorerByIngredients() {
   }, []);
 
   return (
-    <div>
+    <div className="page-container">
       <Header name="Explorar Ingredientes" />
-      {ingredients.length > 0 && ingredients.map((ingredient, index) => (
-        <IngredientCard
-          key={ ingredient }
-          ingredient={ ingredient }
-          type="comidas"
-          img={ `https://www.themealdb.com/images/ingredients/${ingredient}-Small.png` }
-          index={ index }
-        />
-      ))}
+      <div className="recipes">
+        {ingredients.length > 0 && ingredients.map((ingredient, index) => (
+          <IngredientCard
+            key={ ingredient }
+            ingredient={ ingredient }
+            type="comidas"
+            img={ `https://www.themealdb.com/images/ingredients/${ingredient}-Small.png` }
+            index={ index }
+          />
+        ))}
+      </div>
       <Footer />
     </div>
   );

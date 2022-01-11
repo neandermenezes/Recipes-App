@@ -12,9 +12,12 @@ import {
   getDoneRecipes,
   getRecipeProgress,
 } from '../services/localStorage';
+import '../css/RecipeDetails.css';
 import RecipesContext from '../context/RecipesContext';
 import ShareButton from '../components/ShareButton';
 import FavoriteButton from '../components/FavoriteButton';
+
+// const copy = require('clipboard-copy');
 
 const currentURL = window.location.href;
 
@@ -83,6 +86,11 @@ function FoodDetails(props) {
 
   const url = strYoutube ? strYoutube.split('=')[1] : strYoutube;
 
+  // const handleShare = async () => {
+  //   await copy(currentURL);
+  //   setIsCopied(true);
+  // };
+
   const handleFavoriteDependencies = {
     id,
     type: 'comida',
@@ -93,44 +101,90 @@ function FoodDetails(props) {
     image: strMealThumb,
   };
 
+  // const handleFavorite = () => {
+  //   if (!isFavorite) {
+  //     const newFavorite = {
+  //       id,
+  //       type: 'comida',
+  //       area: strArea,
+  //       category: strCategory,
+  //       alcoholicOrNot: '',
+  //       name: strMeal,
+  //       image: strMealThumb,
+  //     };
+  //     setFavoriteRecipes([...getFavoriteRecipes(), newFavorite]);
+  //     return setIsFavorite(!isFavorite);
+  //   }
+
+  //   const deleteFavorite = getFavoriteRecipes().filter(
+  //     (recipe) => recipe.id !== id,
+  //   );
+  //   setFavoriteRecipes(deleteFavorite);
+  //   return setIsFavorite(!isFavorite);
+  // };
+
   return (
-    <div>
-      <div>
-        <img src={ strMealThumb } alt="food" data-testid="recipe-photo" />
-        <h1 data-testid="recipe-title">{strMeal}</h1>
-        <h2 data-testid="recipe-category">{strCategory}</h2>
-        <ShareButton
-          textToCopy={ currentURL }
-          setIsCopied={ setIsCopied }
-          isCopied={ isCopied }
-        />
-        <FavoriteButton
-          isFavorite={ isFavorite }
-          setIsFavorite={ setIsFavorite }
-          id={ id }
-          favoriteDependencies={ handleFavoriteDependencies }
-        />
+    <div className="page-container">
+      <img
+        className="details__image"
+        src={ strMealThumb }
+        alt="food"
+        data-testid="recipe-photo"
+      />
+      <div className="title-container">
+        <div className="titles">
+          <h2 className="details__category" data-testid="recipe-category">
+            {strCategory}
+          </h2>
+          <h1 className="details__title" data-testid="recipe-title">
+            {strMeal}
+          </h1>
+        </div>
+        <div className="details">
+          <ShareButton
+            textToCopy={ currentURL }
+            setIsCopied={ setIsCopied }
+            isCopied={ isCopied }
+          />
+          <FavoriteButton
+            isFavorite={ isFavorite }
+            setIsFavorite={ setIsFavorite }
+            id={ id }
+            favoriteDependencies={ handleFavoriteDependencies }
+          />
+        </div>
       </div>
-      <ul>
+      <p className="details__description margin-left">Ingredientes:</p>
+      <ul className="ingredient-list">
         {ingredientsList.map((ingredient, index) => (
           <li
+            className="details__ingredient"
             key={ ingredient }
             data-testid={ `${index}-ingredient-name-and-measure` }
           >
-            {`${ingredient} ${measuresList[index] ? measuresList[index] : ''}`}
+            <span className="details__ingredient-name">{`${ingredient}: `}</span>
+            {measuresList[index] ? (
+              <span className="details__measure">{measuresList[index]}</span>
+            ) : (
+              ''
+            )}
           </li>
         ))}
       </ul>
-      <p data-testid="instructions">{strInstructions}</p>
+      <p className="details__description--instructions">Instruções:</p>
+      <p className="details__instructions" data-testid="instructions">
+        {strInstructions}
+      </p>
       <iframe
-        width="420"
+        className="details__video"
+        width="360"
         height="315"
         src={ `https://youtube.com/embed/${url}` }
         title={ strMeal }
         data-testid="video"
       />
       <div className="recomended">
-        <h2>Recomendadas</h2>
+        <p className="details__description center-this">Ótimos acompanhamentos:</p>
         <div className="carousel">
           {renderRecomendations
             && renderRecomendations.map((beverage, index) => (
@@ -147,7 +201,7 @@ function FoodDetails(props) {
         </div>
       </div>
       <button
-        className={ isDone ? 'hidden-start-recipe-btn' : 'start-recipe-btn' }
+        className={ isDone ? 'hidden-start-recipe-btn' : 'login__btn start-recipe' }
         type="button"
         onClick={ () => history.push(`/comidas/${id}/in-progress`) }
         data-testid="start-recipe-btn"
