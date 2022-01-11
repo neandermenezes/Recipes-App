@@ -34,12 +34,14 @@ function ConcludedCard({
         />
       </Link>
       <div className="text">
-        <h3
-          className="favorites__title"
-          data-testid={ `${mainIndex}-horizontal-name` }
-        >
-          {name}
-        </h3>
+        <Link to={ `/${type}/${id}` }>
+          <h3
+            className="favorites__title"
+            data-testid={ `${mainIndex}-horizontal-name` }
+          >
+            {name}
+          </h3>
+        </Link>
         <h4
           className="favorites__category"
           data-testid={ `${mainIndex}-horizontal-top-text` }
