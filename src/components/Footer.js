@@ -10,8 +10,9 @@ function Footer() {
   return (
     <footer
       data-testid="footer"
-      className="footer">
+      className="footer"
       style={ { position: 'fixed', bottom: 0 } }
+    >
       <button
         src={ drinkIcon }
         onClick={ () => history.push('/bebidas') }
