@@ -18,8 +18,6 @@ function FoodExplorerByArea() {
     requestRecipesByArea(areaSelected).then(({ meals }) => setMealsByArea(meals));
   }, [areaSelected]);
 
-  console.log(mealsOptions);
-
   const handleSelectedOption = (area) => {
     setAreaSelected(area);
   };
