@@ -24,12 +24,14 @@ function FavoriteCard({
         />
       </Link>
       <div className="text align-favorite">
-        <h3
-          className="favorites__title"
-          data-testid={ `${index}-horizontal-name` }
-        >
-          {recipe.name}
-        </h3>
+        <Link to={ `/${type}/${recipe.id}` }>
+          <h3
+            className="favorites__title"
+            data-testid={ `${index}-horizontal-name` }
+          >
+            {recipe.name}
+          </h3>
+        </Link>
         <h4
           className="favorites__category"
           data-testid={ `${index}-horizontal-top-text` }

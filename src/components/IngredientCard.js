@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 function IngredientCard({ type, index, img, ingredient }) {
+  // Essa parte do código foi feita baseada na resposta do usuário Chetan Sisodiya no link: https://stackoverflow.com/questions/30115324/pass-props-in-link-react-router
   const newTo = {
     pathname: `/${type}`,
     ingredient,
