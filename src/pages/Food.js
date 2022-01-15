@@ -54,8 +54,12 @@ function Food({ location: { ingredient } }) {
 
 Food.propTypes = {
   location: PropTypes.shape({
-    ingredient: PropTypes.string.isRequired,
-  }).isRequired,
+    ingredient: PropTypes.string,
+  }),
+};
+
+Food.defaultProps = {
+  location: {},
 };
 
 export default Food;
