@@ -11,7 +11,11 @@ function Footer() {
   const selected = 'footer__btn selected';
 
   return (
-    <footer data-testid="footer" className="footer">
+    <footer
+      data-testid="footer"
+      className="footer"
+      style={ { position: 'fixed', bottom: 0 } }
+    >
       <button
         className={
           pathname.includes('bebidas') ? selected : 'footer__btn'
