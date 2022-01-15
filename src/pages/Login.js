@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 import profileIcon from '../images/profileIcon.svg';
 import '../css/Login.css';
 
@@ -57,7 +58,7 @@ function Login({ history }) {
           className={ !buttonState ? 'login__btn' : 'login__btn-disabled' }
           disabled={ buttonState }
           type="submit"
-          // onClick={ saveAndRedirect }
+          onClick={ saveAndRedirect }
           data-testid="login-submit-btn"
         >
           Entrar
@@ -76,4 +77,4 @@ Login.propTypes = {
   }).isRequired,
 };
 
-export default Login;
+export default withRouter(Login);
