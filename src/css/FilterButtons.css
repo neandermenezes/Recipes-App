@@ -1,7 +1,7 @@
 .filters {
   display: flex;
-  flex-wrap: wrap;
   flex-basis: 100%;
+  flex-wrap: wrap;
   gap: 5px;
   margin: 0 1rem;
   margin-bottom: 2px;
