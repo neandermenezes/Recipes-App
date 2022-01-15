@@ -16,9 +16,6 @@ function FilterButtons({ url, type }) {
   const { setFilteredFood, setFilteredBeverage } = useContext(RecipesContext);
 
   const filterBeverage = async (id) => {
-    const btns = document.getElementById(selectedCategory);
-    console.log(selectedCategory);
-    console.log(btns);
     if (id === selectedCategory) {
       setSelectedCategory('All');
       return setFilteredBeverage([]);
