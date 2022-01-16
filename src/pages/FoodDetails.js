@@ -17,13 +17,12 @@ import RecipesContext from '../context/RecipesContext';
 import ShareButton from '../components/ShareButton';
 import FavoriteButton from '../components/FavoriteButton';
 
-// const copy = require('clipboard-copy');
-
 const currentURL = window.location.href;
 
 const MAX_RECOMENDATION_CARDS = 6;
 
 function FoodDetails(props) {
+  console.log(props)
   const {
     match: {
       params: { id },
@@ -86,11 +85,6 @@ function FoodDetails(props) {
 
   const url = strYoutube ? strYoutube.split('=')[1] : strYoutube;
 
-  // const handleShare = async () => {
-  //   await copy(currentURL);
-  //   setIsCopied(true);
-  // };
-
   const handleFavoriteDependencies = {
     id,
     type: 'comida',
@@ -100,28 +94,6 @@ function FoodDetails(props) {
     name: strMeal,
     image: strMealThumb,
   };
-
-  // const handleFavorite = () => {
-  //   if (!isFavorite) {
-  //     const newFavorite = {
-  //       id,
-  //       type: 'comida',
-  //       area: strArea,
-  //       category: strCategory,
-  //       alcoholicOrNot: '',
-  //       name: strMeal,
-  //       image: strMealThumb,
-  //     };
-  //     setFavoriteRecipes([...getFavoriteRecipes(), newFavorite]);
-  //     return setIsFavorite(!isFavorite);
-  //   }
-
-  //   const deleteFavorite = getFavoriteRecipes().filter(
-  //     (recipe) => recipe.id !== id,
-  //   );
-  //   setFavoriteRecipes(deleteFavorite);
-  //   return setIsFavorite(!isFavorite);
-  // };
 
   return (
     <div className="page-container">
