@@ -61,7 +61,10 @@ describe('Componente Header', () => {
     const btnSearch = screen.getByTestId('search-top-btn');
 
     userEvent.click(btnSearch);
-    // const inputSearchBar = screen.getByTestId('search-input');
-    // const btnSearchBar = screen.getByTestId('exec-search-btn');
+    const inputSearchBar = screen.getByTestId('search-input');
+    const btnSearchBar = screen.getByTestId('exec-search-btn');
+
+    expect(inputSearchBar).toBeInTheDocument();
+    expect(btnSearchBar).toBeInTheDocument();
   });
 });
