@@ -11,6 +11,7 @@ import '../css/MainPage.css';
 const MAX_MAP_LENGTH = 12;
 
 function Food({ location: { ingredient } }) {
+  console.log(ingredient);
   const [foods, setFoods] = useState([]);
   const [renderFoods, setRenderFoods] = useState([]);
   const { filteredFood } = useContext(RecipesContext);
