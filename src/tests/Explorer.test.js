@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import Explorer from '../pages/Explorer';
 import renderWithRouter from './renderWithRouter';
 
-describe('Explorer', () => {
+describe('Explorar', () => {
   it('se tem os data-testid certos', () => {
     renderWithRouter(<Explorer />);
 

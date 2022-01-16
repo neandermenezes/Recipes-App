@@ -22,7 +22,6 @@ const currentURL = window.location.href;
 const MAX_RECOMENDATION_CARDS = 6;
 
 function FoodDetails(props) {
-  console.log(props);
   const {
     match: {
       params: { id },
