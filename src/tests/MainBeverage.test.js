@@ -32,10 +32,19 @@ describe('Página principal de comidas', () => {
     });
   });
 
-  it('Testa botões de filtro', () => {
-    const filterButtons = screen.getAllByRole('button');
+  it('Testa botões de filtro', async () => {
+    const filter0 = await screen.findByTestId('All-category-filter');
+    const filter1 = await screen.findByTestId('Ordinary Drink-category-filter');
+    const filter2 = await screen.findByTestId('Cocktail-category-filter');
+    const filter3 = await screen.findByTestId('Milk / Float / Shake-category-filter');
+    const filter4 = await screen.findByTestId('Other/Unknown-category-filter');
+    const filter5 = await screen.findByTestId('Cocoa-category-filter');
+
+    const filterButtons = [filter0, filter1, filter2, filter3, filter4, filter5];
+
     filterButtons.forEach((button) => {
       expect(button).toBeInTheDocument();
+      userEvent.click(button);
     });
   });
 });

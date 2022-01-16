@@ -5,8 +5,11 @@ import renderWithRouter from '../renderWithRouter';
 import Food from '../pages/Food';
 import RecipesProvider from '../context/RecipesProvider';
 
+const propUndefined = { location: undefined };
+const propChicken = { location: { ingredients: 'Chicken' } };
+
 describe('Página principal de comidas', () => {
-  renderWithRouter(<RecipesProvider><Food /></RecipesProvider>);
+  renderWithRouter(<RecipesProvider><Food { ...propUndefined } /></RecipesProvider>);
 
   it('A tela possui os 12 data-testids dos cards', async () => {
     const card0 = await screen.findByTestId('0-recipe-card');
@@ -32,7 +35,7 @@ describe('Página principal de comidas', () => {
   });
 
   it('Testa botões de filtro', async () => {
-    renderWithRouter(<RecipesProvider><Food /></RecipesProvider>);
+    renderWithRouter(<RecipesProvider><Food { ...propUndefined } /></RecipesProvider>);
     const filter0 = await screen.findByTestId('All-category-filter');
     const filter1 = await screen.findByTestId('Beef-category-filter');
     const filter2 = await screen.findByTestId('Breakfast-category-filter');
