@@ -8,9 +8,6 @@ import Food from '../pages/Food';
 import FoodExplorer from '../pages/FoodExplorer';
 import BeverageExplorer from '../pages/BeverageExplorer';
 import RecipesProvider from '../context/RecipesProvider';
-import BeverageDetails from '../pages/BeverageDetails';
-import BeverageInProgress from '../pages/BeverageInProgress';
-import FoodInProgress from '../pages/FoodInProgress';
 import FoodExplorerByIngredients from '../pages/FoodExplorerByIngredients';
 import BeverageExplorerByIngredients from '../pages/BeverageExplorerByIngredients';
 import FoodExplorerByArea from '../pages/FoodExplorerByArea';
@@ -89,10 +86,14 @@ describe('21 - Verifica se o menu inferior é exibido apenas nas telas '
     expect(screen.getByTestId('footer')).toBeInTheDocument();
   });
   it('Tem footer na tela de explorar bebidas por ingrediente', () => {
-    renderWithRouter(<RecipesProvider><BeverageExplorerByIngredients /></RecipesProvider>);
+    renderWithRouter(
+      <RecipesProvider>
+        <BeverageExplorerByIngredients />
+      </RecipesProvider>,
+    );
     expect(screen.getByTestId('footer')).toBeInTheDocument();
   });
-  it('Tem footer na tela de explorar comidas por local de origem', () => {
+  it('Tem footer na tela de explorar comidas por local', () => {
     renderWithRouter(<RecipesProvider><FoodExplorerByArea /></RecipesProvider>);
     expect(screen.getByTestId('footer')).toBeInTheDocument();
   });

@@ -56,7 +56,11 @@ describe('Componente Header', () => {
     expect(pathname).toBe('/perfil');
   });
   it('se ao clicar no botão de search aparece o forms de busca', () => {
-    renderWithRouter(<RecipesProvider><Header name={ TÍTULO_HEADER } search /></RecipesProvider>);
+    renderWithRouter(
+      <RecipesProvider>
+        <Header name={ TÍTULO_HEADER } search />
+      </RecipesProvider>,
+    );
 
     const btnSearch = screen.getByTestId('search-top-btn');
 
