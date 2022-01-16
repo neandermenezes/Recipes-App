@@ -1,5 +1,6 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import renderWithRouter from '../renderWithRouter';
 import Beverage from '../pages/Beverage';
 import RecipesProvider from '../context/RecipesProvider';
@@ -34,7 +35,7 @@ describe('Página principal de comidas', () => {
 
   it('Testa botões de filtro', async () => {
     const filter0 = await screen.findByTestId('All-category-filter');
-    const filter1 = await screen.findByTestId('Ordinary Drink-category-filter');
+    const filter1 = await screen.findByTestId(/Ordinary Drink-category-filter/i);
     const filter2 = await screen.findByTestId('Cocktail-category-filter');
     const filter3 = await screen.findByTestId('Milk / Float / Shake-category-filter');
     const filter4 = await screen.findByTestId('Other/Unknown-category-filter');
