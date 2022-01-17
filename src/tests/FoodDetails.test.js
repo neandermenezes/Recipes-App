@@ -3,7 +3,7 @@ import renderWithRouter from './renderWithRouter';
 import FoodDetails from '../pages/FoodDetails';
 import RecipesProvider from '../context/RecipesContext';
 
-const RecipeMock = { meals: [{ idMeal: '53026',
+/* const RecipeMock = { meals: [{ idMeal: '53026',
   strMeal: 'Tamiya',
   strDrinkAlternate: null,
   strCategory: 'Vegetarian',
@@ -55,9 +55,9 @@ const RecipeMock = { meals: [{ idMeal: '53026',
   strSource: 'https:\/\/oukosher.org\/recipes\/tamiya-egyptian-dried-fava-bean-fritters\/',
   strImageSource: null,
   strCreativeCommonsConfirmed: null,
-  dateModified: null }] };
+  dateModified: null }] }; */
 
-const recipeInfo = RecipeMock.meals[0];
+// const recipeInfo = RecipeMock.meals[0];
 
 describe('Testa a página de detalhes de comidas', () => {
   it('Verifica se os elementos se encontram na tela', () => {
