@@ -4,12 +4,12 @@ import renderWithRouter from '../renderWithRouter';
 import Food from '../pages/Food';
 import RecipesProvider from '../context/RecipesProvider';
 
-// const propChicken = { location: { ingredients: 'Chicken' } };
+const propAvocado = { location: { ingredient: 'Avocado' } };
 
 describe('Página principal de comidas', () => {
-  renderWithRouter(<RecipesProvider><Food /></RecipesProvider>);
-
   it('A tela possui os 12 data-testids dos cards', async () => {
+    renderWithRouter(<RecipesProvider><Food /></RecipesProvider>);
+
     const card0 = await screen.findByTestId('0-recipe-card');
     const card1 = await screen.findByTestId('1-recipe-card');
     const card2 = await screen.findByTestId('2-recipe-card');
@@ -46,5 +46,12 @@ describe('Página principal de comidas', () => {
     filterButtons.forEach((button) => {
       expect(button).toBeInTheDocument();
     });
+  });
+  it('Testa se renderiza as receitas de acordo com o ingrediente escolhido', async () => {
+    renderWithRouter(<RecipesProvider><Food { ...propAvocado } /></RecipesProvider>);
+    await expect(screen.queryByText('Burek')).not.toBeInTheDocument();
+
+    const avocadoRecipe = await screen.findByText('Chocolate Avocado Mousse');
+    expect(avocadoRecipe).toBeInTheDocument();
   });
 });

@@ -5,12 +5,12 @@ import renderWithRouter from '../renderWithRouter';
 import Beverage from '../pages/Beverage';
 import RecipesProvider from '../context/RecipesProvider';
 
-describe('Página principal de comidas', () => {
-  beforeEach(() => {
-    renderWithRouter(<RecipesProvider><Beverage /></RecipesProvider>);
-  });
+const propGin = { location: { ingredient: 'Gin' } };
 
+describe('Página principal de comidas', () => {
   it('A tela possui os 12 data-testids dos cards', async () => {
+    renderWithRouter(<RecipesProvider><Beverage /></RecipesProvider>);
+
     const card0 = await screen.findByTestId('0-recipe-card');
     const card1 = await screen.findByTestId('1-recipe-card');
     const card2 = await screen.findByTestId('2-recipe-card');
@@ -34,6 +34,8 @@ describe('Página principal de comidas', () => {
   });
 
   it('Testa botões de filtro', async () => {
+    renderWithRouter(<RecipesProvider><Beverage /></RecipesProvider>);
+
     const filter0 = await screen.findByTestId('All-category-filter');
     const filter1 = await screen.findByTestId(/Ordinary Drink-category-filter/i);
     const filter2 = await screen.findByTestId('Cocktail-category-filter');
@@ -47,5 +49,12 @@ describe('Página principal de comidas', () => {
       expect(button).toBeInTheDocument();
       userEvent.click(button);
     });
+  });
+  it('Testa se renderiza as receitas de acordo com o ingrediente escolhido', async () => {
+    renderWithRouter(<RecipesProvider><Beverage { ...propGin } /></RecipesProvider>);
+    await expect(screen.queryByText('GG')).not.toBeInTheDocument();
+
+    const ginRecipe = await screen.findByText('Angel Face');
+    expect(ginRecipe).toBeInTheDocument();
   });
 });
