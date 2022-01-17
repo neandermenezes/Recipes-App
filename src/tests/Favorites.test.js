@@ -79,24 +79,28 @@ describe('Receitas Favoritas', () => {
     renderWithRouter(<FavoriteRecipes />);
 
     const filterFood = screen.getByTestId('filter-by-food-btn');
-    // const filterDrink = screen.getByTestId('filter-by-drink-btn');
+    const filterAll = screen.getByTestId('filter-by-all-btn');
     const kir = screen.queryByAltText('Kir');
     const tamiya = screen.queryByAltText('Tamiya');
 
     expect(tamiya).toBeInTheDocument();
     expect(kir).toBeInTheDocument();
-    userEvent.click(filterFood);
-    // expect(kir).not.toBeInTheDocument();
+
+    fireEvent.click(filterFood);
+    expect(kir).not.toBeInTheDocument();
+    expect(tamiya).toBeInTheDocument();
+
+    fireEvent.click(filterAll);
     expect(tamiya).toBeInTheDocument();
   });
-  it('se aparece a mensagem de link copiado', () => {
-    renderWithRouter(<FavoriteRecipes />);
+  // it('se aparece a mensagem de link copiado', async () => {
+  //   renderWithRouter(<FavoriteRecipes />);
 
-    const message = screen.queryByText('Link copiado!');
-    // const shareBtn = screen.getByTestId('0-horizontal-share-btn');
+  //   const message = screen.queryByText('Link copiado!');
+  //   const shareBtn = await screen.findByTestId('0-horizontal-share-btn');
 
-    expect(message).not.toBeInTheDocument();
-    // userEvent.click(shareBtn);
-    // expect(message).toBeInTheDocument();
-  });
+  //   expect(message).not.toBeInTheDocument();
+  //   // fireEvent.click(shareBtn);
+  //   // expect(message).toBeInTheDocument();
+  // });
 });
