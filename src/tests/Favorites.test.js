@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './renderWithRouter';
 import FavoriteRecipes from '../pages/FavoriteRecipes';
@@ -63,15 +63,17 @@ describe('Receitas Favoritas', () => {
     recipesName.forEach((name) => expect(name).toBeInTheDocument());
     expect(screen.queryByTestId('3-horizontal-image')).not.toBeInTheDocument();
   });
-  it('se ao desfavoritar a receita some', () => {
+  it('se ao desfavoritar a receita some', async () => {
     renderWithRouter(<FavoriteRecipes />);
 
-    const favoriteBtn = screen.getByTestId('0-horizontal-favorite-btn');
-    const thirdRecipe = screen.queryByTestId('2-horizontal-image');
+    const favoriteBtn = screen.getByTestId('1-horizontal-favorite-btn');
+    const secondRecipe = screen.getByTestId('1-horizontal-image');
 
-    expect(thirdRecipe).toBeInTheDocument();
-    userEvent.click(favoriteBtn);
-    // expect(thirdRecipe).not.toBeInTheDocument();
+    expect(secondRecipe).toBeInTheDocument();
+
+    fireEvent.click(favoriteBtn);
+
+    expect(secondRecipe).not.toBeInTheDocument();
   });
   it('se os filtros funcionam corretamente', () => {
     renderWithRouter(<FavoriteRecipes />);
