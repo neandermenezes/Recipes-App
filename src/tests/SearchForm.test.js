@@ -2,12 +2,18 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from '../renderWithRouter';
-import Food from '../pages/Food';
 import RecipesProvider from '../context/RecipesProvider';
+import SearchForm from '../components/SearchForm';
+import Food from '../pages/Food';
 
 describe('Testa o Search Form', () => {
   it('Testa a renderização do Search Form em Foods', async () => {
-    renderWithRouter(<RecipesProvider><Food /></RecipesProvider>);
+    const { history } = renderWithRouter(
+      <RecipesProvider>
+        <Food><SearchForm /></Food>
+      </RecipesProvider>,
+    );
+    history.push('/comidas');
     const searchBtn = await screen.getByTestId('search-top-btn');
     expect(searchBtn).toBeInTheDocument();
 
@@ -28,7 +34,12 @@ describe('Testa o Search Form', () => {
 
     userEvent.click(nameRadio);
 
-    userEvent.type(searchBar, 'Corba');
+    userEvent.type(searchBar, 'aaaaaaaa');
     userEvent.click(executeBtn);
+
+    console.log(history);
+
+    // const card = await screen.findByTestId('0-recipe-card');
+    // expect(card).not.toBeInTheDocument();
   });
 });
