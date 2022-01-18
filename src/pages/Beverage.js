@@ -54,8 +54,12 @@ function Beverage({ location: { ingredient } }) {
 
 Beverage.propTypes = {
   location: PropTypes.shape({
-    ingredient: PropTypes.string.isRequired,
-  }).isRequired,
+    ingredient: PropTypes.string,
+  }),
+};
+
+Beverage.defaultProps = {
+  location: {},
 };
 
 export default Beverage;

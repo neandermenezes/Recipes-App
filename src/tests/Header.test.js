@@ -5,6 +5,7 @@ import Header from '../components/Header';
 import renderWithRouter from './renderWithRouter';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
+import RecipesProvider from '../context/RecipesProvider';
 
 const TÍTULO_HEADER = 'nome da página';
 const BOTAO_PERFIL = 'profile-top-btn';
@@ -55,12 +56,19 @@ describe('Componente Header', () => {
     expect(pathname).toBe('/perfil');
   });
   it('se ao clicar no botão de search aparece o forms de busca', () => {
-    renderWithRouter(<Header name={ TÍTULO_HEADER } search />);
+    renderWithRouter(
+      <RecipesProvider>
+        <Header name={ TÍTULO_HEADER } search />
+      </RecipesProvider>,
+    );
 
     const btnSearch = screen.getByTestId('search-top-btn');
 
     userEvent.click(btnSearch);
-    // const inputSearchBar = screen.getByTestId('search-input');
-    // const btnSearchBar = screen.getByTestId('exec-search-btn');
+    const inputSearchBar = screen.getByTestId('search-input');
+    const btnSearchBar = screen.getByTestId('exec-search-btn');
+
+    expect(inputSearchBar).toBeInTheDocument();
+    expect(btnSearchBar).toBeInTheDocument();
   });
 });
