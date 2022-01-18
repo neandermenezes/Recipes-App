@@ -1,8 +1,11 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import renderWithRouter from './renderWithRouter';
 import FoodDetails from '../pages/FoodDetails';
 import RecipesProvider from '../context/RecipesProvider';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 
 const props = { match: { params: { id: '53026' } } };
 const doneRecipes = [
@@ -60,6 +63,16 @@ describe('Testa a página de detalhes de comidas', () => {
 
       const finishBtn = await screen.findByTestId('start-recipe-btn');
       expect(finishBtn).toBeInTheDocument();
+    });
+  it('se o botão de favoritar funciona corretamente',
+    async () => {
+      renderWithRouter(<RecipesProvider><FoodDetails { ...props } /></RecipesProvider>);
+
+      const favoriteBtn = await screen.findByTestId('favorite-btn');
+      expect(favoriteBtn).toHaveAttribute('src', whiteHeartIcon);
+
+      userEvent.click(favoriteBtn);
+      await expect(favoriteBtn).toHaveAttribute('src', blackHeartIcon);
     });
   it('se o botão não está presente quando a receita foi feita',
     async () => {
