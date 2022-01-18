@@ -27,7 +27,19 @@ describe('Receita de comida em progresso', () => {
 
       elements.forEach((element) => expect(element).toBeInTheDocument());
     });
-    it('se marcar todos os ingredientes como feito, habilita o botão de finalizar', async () => {
-      
-    })
+  it('habilita o botão de finalizar e redireciona para receitas feitas', async () => {
+    const { history } = renderWithRouter(
+      <RecipesProvider><BeverageInProgress { ...props } /></RecipesProvider>,
+    );
+    const submitBtn = await screen.findByTestId('finish-recipe-btn');
+    const checks = await screen.findAllByRole('checkbox');
+
+    expect(submitBtn).toHaveAttribute('disabled');
+    checks.forEach((check) => userEvent.click(check));
+    expect(submitBtn).not.toHaveAttribute('disabled');
+
+    userEvent.click(submitBtn);
+    const { pathname } = history.location;
+    expect(pathname).toBe('/receitas-feitas');
+  });
 });
