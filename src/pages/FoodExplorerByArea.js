@@ -30,9 +30,16 @@ function FoodExplorerByArea() {
         onChange={ ({ target }) => handleSelectedOption(target.value) }
         data-testid="explore-by-area-dropdown"
       >
-        <option className="options" data-testid="All-option" value="All">All</option>
-        { mealsOptions.map(({ strArea }) => (
-          <option className="options" data-testid={ `${strArea}-option` } key={ strArea }>
+        <option className="options" data-testid="All-option" value="All">
+          All
+        </option>
+        {mealsOptions.map(({ strArea }) => (
+          <option
+            value={ strArea }
+            className="options"
+            data-testid={ `${strArea}-option` }
+            key={ strArea }
+          >
             {strArea}
           </option>
         ))}

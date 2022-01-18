@@ -52,11 +52,12 @@ describe('Explorar comidas', () => {
     expect(pathname).toBe('/explorar/comidas/area');
   });
   it('se ao clicar em me surpreenda redireciona para a página certa', () => {
-    const { history } = renderWithRouter(<FoodExplorer />);
+    // const { history } =
+    renderWithRouter(<FoodExplorer />);
     const surprise = screen.getByTestId('explore-surprise');
 
     userEvent.click(surprise);
-    const { pathname } = history.location;
+    // const { pathname } = history.location;
     // expect(pathname).toBe('/explorar/comidas/5274');
   });
 });

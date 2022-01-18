@@ -102,7 +102,6 @@ describe('Testes para a página de receitas concluidas', () => {
 
   it('Texta se ao clicar na receita, o link é redirencionado', () => {
     const { history } = renderWithRouter(<ConcludedRecipes />);
-
     const recipe = screen.getByTestId('0-horizontal-name');
 
     userEvent.click(recipe);
