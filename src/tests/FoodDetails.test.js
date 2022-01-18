@@ -1,9 +1,4 @@
 import React from 'react';
-<<<<<<< HEAD
-import renderWithRouter from '../renderWithRouter';
-import FoodDetails from '../pages/FoodDetails';
-import RecipesProvider from '../context/RecipesProvider';
-=======
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './renderWithRouter';
@@ -11,7 +6,6 @@ import FoodDetails from '../pages/FoodDetails';
 import RecipesProvider from '../context/RecipesProvider';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
->>>>>>> 581db181102e7bd1a01543017dda640ec7d52abc
 
 const props = { match: { params: { id: '53026' } } };
 const doneRecipes = [
@@ -39,14 +33,6 @@ const doneRecipes = [
   },
 ];
 
-<<<<<<< HEAD
-describe('Testa a página de detalhes de comidas', async () => {
-  it('Verifica se os elementos se encontram na tela', async () => {
-    const match = { params: { id: '53026' } };
-    global.fetch = jest.fn(() => Promise.resolve({
-      json: () => Promise.resolve(RecipeMock),
-    }));
-=======
 describe('Testa a página de detalhes de comidas', () => {
   it('se os elementos se encontram na tela', async () => {
     renderWithRouter(<RecipesProvider><FoodDetails { ...props } /></RecipesProvider>);
@@ -64,7 +50,6 @@ describe('Testa a página de detalhes de comidas', () => {
     const ingredient7 = await screen.findByTestId('7-ingredient-name-and-measure');
     const ingredient8 = await screen.findByTestId('8-ingredient-name-and-measure');
     const instructions = await screen.findByTestId('instructions');
->>>>>>> 581db181102e7bd1a01543017dda640ec7d52abc
 
     const elements = [photo, category, title, ingredient0, ingredient1,
       ingredient2, instructions, ingredient3, ingredient4, ingredient5,

@@ -1,11 +1,14 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from '../renderWithRouter';
 import ConcludedRecipes from '../pages/ConcludedRecipes';
 
 describe('Testes para a página de receitas concluidas', () => {
-  const recipes = [{ id: '52977', type: 'comida', area: 'Turkish', category: 'Side', alcoholicOrNot: '', name: 'Corba', image: 'https://www.themealdb.com/images/media/meals/58oia61564916529.jpg', doneDate: '2022-01-18T04:04:05.927Z', tags: 'Soup' }, { id: '53026', type: 'comida', area: 'Egyptian', category: 'Vegetarian', alcoholicOrNot: '', name: 'Tamiya', image: 'https://www.themealdb.com/images/media/meals/n3xxd91598732796.jpg', doneDate: '2022-01-18T04:05:48.582Z', tags: '' }, { id: '15288', type: 'bebida', area: '', category: 'Shot', alcoholicOrNot: 'Alcoholic', name: '252', image: 'https://www.thecocktaildb.com/images/media/drink/rtpxqw1468877562.jpg', doneDate: '2022-01-18T04:07:39.765Z', tags: '' }, { id: '17203', type: 'bebida', area: '', category: 'Ordinary Drink', alcoholicOrNot: 'Alcoholic', name: 'Kir', image: 'https://www.thecocktaildb.com/images/media/drink/apneom1504370294.jpg', doneDate: '2022-01-18T04:08:33.276Z', tags: 'IBA,ContemporaryClassic' }];
+  const recipes = [{ id: '52977', type: 'comida', area: 'Turkish', category: 'Side', alcoholicOrNot: '', name: 'Corba', image: 'https://www.themealdb.com/images/media/meals/58oia61564916529.jpg', doneDate: '2022-01-18T04:04:05.927Z', tags: 'Soup' },
+    { id: '53026', type: 'comida', area: 'Egyptian', category: 'Vegetarian', alcoholicOrNot: '', name: 'Tamiya', image: 'https://www.themealdb.com/images/media/meals/n3xxd91598732796.jpg', doneDate: '2022-01-18T04:05:48.582Z', tags: '' },
+    { id: '15288', type: 'bebida', area: '', category: 'Shot', alcoholicOrNot: 'Alcoholic', name: '252', image: 'https://www.thecocktaildb.com/images/media/drink/rtpxqw1468877562.jpg', doneDate: '2022-01-18T04:07:39.765Z', tags: '' },
+    { id: '17203', type: 'bebida', area: '', category: 'Ordinary Drink', alcoholicOrNot: 'Alcoholic', name: 'Kir', image: 'https://www.thecocktaildb.com/images/media/drink/apneom1504370294.jpg', doneDate: '2022-01-18T04:08:33.276Z', tags: 'IBA,ContemporaryClassic' }];
 
   beforeEach(() => {
     window.localStorage.setItem('doneRecipes', JSON.stringify(recipes));
@@ -32,10 +35,6 @@ describe('Testes para a página de receitas concluidas', () => {
     const recipesShare = recipes.map((_item, index) => (
       screen.getByTestId(`${index}-horizontal-share-btn`)
     ));
-    /* recipes.map((item, index) => (
-      item.tags.map((tag, i) => screen.getByTestId(`${index}-${tag[i]}-horizontal-tag`))
-    )); */
-
     const recipeTags1 = screen.getByTestId('0-Soup-horizontal-tag');
     const recipeTags2 = screen.getByTestId('3-IBA-horizontal-tag');
     const recipeTags3 = screen.getByTestId('3-ContemporaryClassic-horizontal-tag');
@@ -52,52 +51,23 @@ describe('Testes para a página de receitas concluidas', () => {
     expect(btnFood).toBeInTheDocument();
     expect(btnDrinks).toBeInTheDocument();
   });
-
-  it('Testa se o link é copiado ao clicar no botão', () => {
-    renderWithRouter(<ConcludedRecipes />);
-
-    const btnShare = screen.getByTestId('0-horizontal-share-btn');
-
-    userEvent.click(btnShare);
-
-    const textShare = screen.getByText('Link copiado!');
-
-    expect(textShare).toBeInTheDocument();
-  });
-
   it('Testa os botões de filtro', () => {
     renderWithRouter(<ConcludedRecipes />);
 
-    const TOTAL_LENGTH = 3;
+    const filterFood = screen.getByTestId('filter-by-food-btn');
+    const filterAll = screen.getByTestId('filter-by-all-btn');
+    const kir = screen.queryByAltText('Kir');
+    const tamiya = screen.queryByAltText('Tamiya');
 
-    const btnAll = screen.getByText('All');
-    const btnFood = screen.getByTestId('filter-by-food-btn');
-    const btnDrink = screen.getByTestId('filter-by-drink-btn');
-    const recipesName = recipes.map((_item, index) => (
-      screen.getByTestId(`${index}-horizontal-name`)
-    ));
+    expect(tamiya).toBeInTheDocument();
+    expect(kir).toBeInTheDocument();
 
-    expect(btnAll).toBeInTheDocument();
-    expect(btnFood).toBeInTheDocument();
-    expect(btnDrink).toBeInTheDocument();
-    recipesName.forEach((name) => expect(name).toBeInTheDocument());
-    expect(recipesName).toHaveLength(TOTAL_LENGTH);
+    fireEvent.click(filterFood);
+    expect(kir).not.toBeInTheDocument();
+    expect(tamiya).toBeInTheDocument();
 
-    userEvent.click(btnFood);
-
-    const concludedRecipesFood = screen.getAllByRole('listitem');
-
-    expect(concludedRecipesFood).toHaveLength(1);
-
-    userEvent.click(btnDrink);
-
-    const concludedRecipesDrink = screen.getAllByRole('listitem');
-
-    expect(concludedRecipesDrink).toHaveLength(2);
-
-    userEvent.click(btnAll);
-
-    expect(concludedRecipesDrink).toHaveLength(TOTAL_LENGTH);
+    fireEvent.click(filterAll);
+    expect(tamiya).toBeInTheDocument();
   });
 
   it('Texta se ao clicar na receita, o link é redirencionado', () => {
