@@ -1,10 +1,10 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
 import renderWithRouter from './renderWithRouter';
-import FoodDetails from '../pages/FoodDetails';
 import RecipesProvider from '../context/RecipesProvider';
+import BeverageDetails from '../pages/BeverageDetails';
 
-const props = { match: { params: { id: '53026' } } };
+const props = { match: { params: { id: '17222' } } };
 const doneRecipes = [
   {
     id: '15288',
@@ -30,9 +30,9 @@ const doneRecipes = [
   },
 ];
 
-describe('Testa a página de detalhes de comidas', () => {
+describe('Testa a página de detalhes de bebidas', () => {
   it('se os elementos se encontram na tela', async () => {
-    renderWithRouter(<RecipesProvider><FoodDetails { ...props } /></RecipesProvider>);
+    renderWithRouter(<RecipesProvider><BeverageDetails { ...props } /></RecipesProvider>);
 
     const photo = await screen.findByTestId('recipe-photo');
     const category = await screen.findByTestId('recipe-category');
@@ -41,22 +41,20 @@ describe('Testa a página de detalhes de comidas', () => {
     const ingredient1 = await screen.findByTestId('1-ingredient-name-and-measure');
     const ingredient2 = await screen.findByTestId('2-ingredient-name-and-measure');
     const ingredient3 = await screen.findByTestId('3-ingredient-name-and-measure');
-    const ingredient4 = await screen.findByTestId('4-ingredient-name-and-measure');
-    const ingredient5 = await screen.findByTestId('5-ingredient-name-and-measure');
-    const ingredient6 = await screen.findByTestId('6-ingredient-name-and-measure');
-    const ingredient7 = await screen.findByTestId('7-ingredient-name-and-measure');
-    const ingredient8 = await screen.findByTestId('8-ingredient-name-and-measure');
     const instructions = await screen.findByTestId('instructions');
 
     const elements = [photo, category, title, ingredient0, ingredient1,
-      ingredient2, instructions, ingredient3, ingredient4, ingredient5,
-      ingredient6, ingredient7, ingredient8];
+      ingredient2, instructions, ingredient3];
 
     elements.forEach((element) => expect(element).toBeInTheDocument());
   });
   it('se o botão está presente quando a receita ainda não foi feita',
     async () => {
-      renderWithRouter(<RecipesProvider><FoodDetails { ...props } /></RecipesProvider>);
+      renderWithRouter(
+        <RecipesProvider>
+          <BeverageDetails { ...props } />
+        </RecipesProvider>,
+      );
 
       const finishBtn = await screen.findByTestId('start-recipe-btn');
       expect(finishBtn).toBeInTheDocument();
@@ -64,8 +62,11 @@ describe('Testa a página de detalhes de comidas', () => {
   it('se o botão não está presente quando a receita foi feita',
     async () => {
       window.localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
-      renderWithRouter(<RecipesProvider><FoodDetails { ...props } /></RecipesProvider>);
-
+      renderWithRouter(
+        <RecipesProvider>
+          <BeverageDetails { ...props } />
+        </RecipesProvider>,
+      );
       // const finishBtn = await screen.findByTestId('start-recipe-btn');
       // expect(finishBtn).toHaveStyle('display: none');
     });
