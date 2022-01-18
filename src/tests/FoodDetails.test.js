@@ -1,7 +1,7 @@
 import React from 'react';
-import renderWithRouter from './renderWithRouter';
+import renderWithRouter from '../renderWithRouter';
 import FoodDetails from '../pages/FoodDetails';
-import RecipesProvider from '../context/RecipesContext';
+import RecipesProvider from '../context/RecipesProvider';
 
 /* const RecipeMock = { meals: [{ idMeal: '53026',
   strMeal: 'Tamiya',
@@ -59,10 +59,10 @@ import RecipesProvider from '../context/RecipesContext';
 
 // const recipeInfo = RecipeMock.meals[0];
 
-describe('Testa a página de detalhes de comidas', () => {
-  it('Verifica se os elementos se encontram na tela', () => {
+describe('Testa a página de detalhes de comidas', async () => {
+  it('Verifica se os elementos se encontram na tela', async () => {
     const match = { params: { id: '53026' } };
-    global.fetch = jest.fn((url) => Promise.resolve({
+    global.fetch = jest.fn(() => Promise.resolve({
       json: () => Promise.resolve(RecipeMock),
     }));
 
