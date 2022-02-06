@@ -32,3 +32,8 @@ Clone the repositary and run
 - npm install
 - npm start
 ```
+![Captura de tela de 2022-02-06 12-12-28](https://user-images.githubusercontent.com/87549369/152687529-e45b5c59-09ca-4c9c-a883-48b1ef1969fe.png)
+![Captura de tela de 2022-02-06 12-12-43](https://user-images.githubusercontent.com/87549369/152687531-41bbba71-c456-4953-a70b-4632b8a00ae1.png)
+
+![Captura de tela de 2022-02-06 12-12-53](https://user-images.githubusercontent.com/87549369/152687536-c592206b-13fd-40d1-abaa-5789e09a2942.png)
+
