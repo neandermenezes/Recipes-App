@@ -157,6 +157,7 @@
   align-items: flex-end;
   display: flex;
   flex-wrap: nowrap;
+  gap: 40px;
   height: 270px;
   margin: 0 1rem;
   margin-right: 50px;
