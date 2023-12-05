@@ -17,8 +17,7 @@ The app also allows for a list of Favorite Recipes and an interaction with recip
 
 ## Design
 
-Primary orange colour was chosen due to its link with hunger, since it's a recipe application we figured why not use some mind controlling techniques (jk). 
-
+Primary orange colour was chosen due to its link with hunger.
 Since there is a lot of reusable pieces, like buttons and cards, their classes are stored in the App.css, Pages were styled in individual files and Helper classes to center divs and add margins also were put in the App.css.
 
 The app was meant to look as clean and professional as possible, small header and footer to allow for more content space. 
